@@ -2,19 +2,22 @@
 
 import unittest
 
-from pet_race_job.pet_race import PetRace as pet_race
-from pet_race_job.mock_obj.mock_data_source import MockDataSource
-
+from pet_race_job.pet_race import PetRace
+from pet_race_job.pet_race_cassandra_data_store import PetRaceCassandraDataStore
 
 class AdvancedTestSuite(unittest.TestCase):
     """Advanced test cases."""
 
     def test_race(self):
-        race = {"guid": 42, "length": 4, "location": 4242}
-        racers = {}
-        data_source = MockDataSource()
-        race = pet_race(base_racer_speed=42, racers=racers, race=race, data_source=data_source)
-        race.run_race()
+        seeds = ['cassandra-0.cassandra.default.svc.cluster.local',
+                 'cassandra-1.cassandra.default.svc.cluster.local']
+        keyspace = 'gpmr'
+        ds = PetRaceCassandraDataStore(seeds, keyspace)
+
+        race_created, racers = ds.create_race(length=10, description="description", pet_category_name="Lions")
+
+        pet_race = PetRace(race=race_created, normal_scale=1, racers=racers, data_source=ds)
+        pet_race.run_race()
 
 
 if __name__ == '__main__':

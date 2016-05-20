@@ -35,12 +35,18 @@ class PetRace(object):
     base_racer_speed = 5
 
     def __init__(self, **kwargs):
+        self.logger = logging.getLogger('pet_race_job')
         self.race = kwargs.get('race')
         self.base_racer_speed = self.race['baseSpeed']
+        self.logger.debug("baseSpeed: %s", self.base_racer_speed)
         self.normal_scale = kwargs.get('normal_scale')
         self.racers = kwargs.get('racers')
+
         self.data_source = kwargs.get('data_source')
-        self.logger = logging.getLogger('pet_race_job')
+
+        for racer in self.racers:
+            self.racers_still_running.append(racer['racerId'])
+
         super()
 
     # I am thinking this is a possible idea?
@@ -54,8 +60,9 @@ class PetRace(object):
             scale = self.normal_scale
 
         random_normal = numpy.random.normal(loc=loc, scale=scale, size=normal_size)
+        self.logger.debug("normals created: %s", random_normal)
+
         self.save_normal(random_normal, loc, scale, normal_size)
-        print(random_normal)
         return random_normal
 
     # TODO
@@ -105,7 +112,7 @@ class PetRace(object):
 
             for racer in self.racers_still_running:
 
-                race_distance = self.race['distance']
+                race_distance = self.race['length']
                 previous_distance = self.racers[racer]['current_distance']
                 current_racer_distance = previous_distance + random_normal.pop()
                 current_racer_distance_adj, finished = self.either_race_distance_current(race_distance,
@@ -139,4 +146,6 @@ class PetRace(object):
                 break
             # end while
             self.save_race()
+
+
             # TODO save race data
