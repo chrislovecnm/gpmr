@@ -2,7 +2,7 @@
 
 import unittest
 
-from petracejob.data_importer import DataImporter
+from pet_race_job.data_importer import DataImporter
 
 
 class DataImporterTestSuite(unittest.TestCase):

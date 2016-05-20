@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from petracejob.core import hmm
+from pet_race_job.core import hmm
 
 import unittest
 

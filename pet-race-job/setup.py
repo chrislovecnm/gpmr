@@ -17,6 +17,6 @@ setup(
     author_email='chris.love at apollobit.com',
     url='https://github.com/k8s-for-greeks/gpmr/tree/master/pet-race-job',
     license=lic,
-    packages=['petracejob']
+    packages=['pet_race_job','pet_race_job.model']
 )
 

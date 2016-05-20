@@ -6,7 +6,7 @@ from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.util import uuid_from_time
 
-from petracejob.model import *
+from pet_race_job.model import *
 
 
 class PetRaceCassandraDataStore(object):

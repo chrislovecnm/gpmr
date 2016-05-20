@@ -15,7 +15,11 @@ from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
 
-from model import *
+# TODO fix this
+try:
+    from model import *
+except ImportError:
+    from pet_race_job.model import *
 
 
 class DataImporter(object):
@@ -53,6 +57,8 @@ class DataImporter(object):
         sync_table(PetCategories)
         sync_table(Pets)
         sync_table(RaceData)
+        sync_table(RaceNormal)
+        sync_table(RaceResults)
         sync_table(RaceParticipants)
         sync_table(Race)
         self.logger.debug("tables created")

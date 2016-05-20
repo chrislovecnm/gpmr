@@ -2,8 +2,8 @@
 
 import unittest
 
-from petracejob.pet_race import PetRace as pet_race
-from petracejob.mock_obj.mock_data_source import MockDataSource
+from pet_race_job.pet_race import PetRace as pet_race
+from pet_race_job.mock_obj.mock_data_source import MockDataSource
 
 
 class AdvancedTestSuite(unittest.TestCase):
