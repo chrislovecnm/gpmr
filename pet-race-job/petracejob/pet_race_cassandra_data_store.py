@@ -6,7 +6,7 @@ from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.util import uuid_from_time
 
-from pet_race_job.model import *
+from petracejob.model import *
 
 
 class PetRaceCassandraDataStore(object):
@@ -90,7 +90,7 @@ class PetRaceCassandraDataStore(object):
         self.logger("race created")
         print(saved_race)
         print(participants)
-       
+
         return saved_race, participants
 
     def save_normal(self, normals, loc, scale, size, race_obj):

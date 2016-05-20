@@ -1,16 +1,20 @@
+from __future__ import absolute_import
+
 import csv
+import getopt
 import glob
 import logging
 import os
 import sys
-import getopt
 
 from datetime import datetime
+
 from cassandra.cqlengine.connection import get_session
 from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
+
 from model import *
 
 
@@ -119,7 +123,7 @@ class DataImporter(object):
 
 if __name__ == '__main__':
 
-    options, remainder = getopt.getopt(sys.argv[1:], 'd:h', ['directory=','help'])
+    options, remainder = getopt.getopt(sys.argv[1:], 'd:h', ['directory=', 'help'])
 
     # if options.d is None: # where foo is obviously your required option
     #    parser.print_help()
