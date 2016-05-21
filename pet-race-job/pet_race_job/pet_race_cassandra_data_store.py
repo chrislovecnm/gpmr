@@ -24,6 +24,7 @@ class PetRaceCassandraDataStore(object):
         self.session = get_session()
         set_session(self.session)
         self.logger = logging.getLogger('pet_race_job')
+        self.logger.debug("session created")
 
     def get_pets_by_name(self, pet_name):
         q = Pets.objects.filter(name=pet_name)
@@ -55,17 +56,16 @@ class PetRaceCassandraDataStore(object):
         race_pets = self.get_pets_by_category_name(pet_category_name)
         pet_category = self.get_pet_category_by_name(pet_category_name)
 
-
         pet_ids = []
         for _pet in race_pets:
-            pet_ids.append(_pet["petId"])
+            pet_ids.append(str(_pet["petId"]))
 
         saved_race = {
-            'raceId': uuid,
+            'raceId': str(uuid),
             'numOfPets': len(race_pets),
             'length': length,
             'description': description,
-            'petCategoryId': pet_category['petCategoryId'],
+            'petCategoryId': str(pet_category['petCategoryId']),
             'petCategoryName': pet_category['name'],
             'startTime': dt,
             'racersIds': pet_ids,
@@ -90,13 +90,13 @@ class PetRaceCassandraDataStore(object):
             p_id = uuid_from_time(datetime.utcnow())
 
             participant = {
-                'raceParticipantsId': p_id,
-                'petId': pet["petId"],
-                'raceId': uuid,
+                'raceParticipantsId': str(p_id),
+                'petId': str(pet["petId"]),
+                'raceId': str(uuid),
                 'petName': pet["name"],
                 # petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
                 'petCategoryName': pet_category['name'],
-                'petCategoryId': pet_category['petCategoryId'],
+                'petCategoryId': str(pet_category['petCategoryId']),
                 'startTime': dt,
                 'endTime': None,
                 'finished': False,
@@ -105,7 +105,7 @@ class PetRaceCassandraDataStore(object):
                 'current_distance': 0
             }
 
-            participants[p_id] = participant
+            participants[str(p_id)] = participant
 
             RaceParticipants.create(
                 raceParticipantsId=p_id,
@@ -114,11 +114,13 @@ class PetRaceCassandraDataStore(object):
                 petName=_pet["name"],
                 # petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
                 petCategoryName=pet_category['name'],
-                petCategoryId=pet_category['name'],
+                petCategoryId=pet_category['petCategoryId'],
                 startTime=dt
             )
 
-        self.logger.debug("race created")
+        # self.logger.debug("race created")
+        # self.logger.debug("race created: %s", saved_race)
+        # self.logger.debug("race created: %s", participants)
 
         return saved_race, participants
 
@@ -153,20 +155,20 @@ class PetRaceCassandraDataStore(object):
         self.logger.debug("normal saved")
 
     # TODO
-    def save_racer_current(self, racer, finished):
-        self.logger.debug("save racer current")
+    def save_racer_current(self, racer, current_race, finished):
+        # self.logger.debug("save racer current")
         return
 
     # TODO
-    def save_racer_finish(self, racer):
-        self.logger.debug("save racer finish")
+    def save_racer_finish(self, racer, race):
+        # self.logger.debug("save racer finish")
         return
 
     # TODO
-    def save_racer_current_point(self, racer):
-        self.logger.debug("save current point")
+    def save_racer_current_point(self, racer, current_race, race_sample):
+        # self.logger.debug("save current point")
         return
 
-    def save_race(self, race, racers):
-        self.logger.debug("save race")
+    def save_race(self, current_race, current_racers,current_racer_positions):
+        # self.logger.debug("save race")
         return
