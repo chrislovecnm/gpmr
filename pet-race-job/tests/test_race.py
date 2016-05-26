@@ -18,7 +18,7 @@ class RaceTestSuite(unittest.TestCase):
         self.logger.debug("creating obj")
         pet_race = PetRace(seeds=seeds, keyspace=keyspace)
         self.logger.debug("creating race")
-        pet_race.create_race(100, "description", "Lions", 1)
+        pet_race.create_race(100, "description", "Giants", 1)
         self.logger.debug("running race")
         pet_race.run_race()
 

@@ -50,7 +50,7 @@ class PetRaceCassandraDataStore(object):
 
     def create_race(self, length, description, pet_category_name):
         dt = datetime.utcnow()
-        uuid = uuid_from_time(datetime.utcnow())
+        uuid = uuid_from_time(dt)
 
         # TODO this is loading all pets ... random number??
         race_pets = self.get_pets_by_category_name(pet_category_name)
@@ -124,7 +124,8 @@ class PetRaceCassandraDataStore(object):
 
         return saved_race, participants
 
-    def save_normal(self, normals, loc, scale, size, race_obj):
+    @staticmethod
+    def save_normal(normals, loc, scale, size, race_obj):
         """
         Saves a race_normal to C*
 
@@ -152,23 +153,55 @@ class PetRaceCassandraDataStore(object):
             normalScale=scale,
             normalSize=size
         )
-        self.logger.debug("normal saved")
+        # self.logger.debug("normal saved")
 
-    # TODO
-    def save_racer_current(self, racer, current_race, finished):
+        # TODO
+        # def save_racer_current(self, racer, current_race, finished):
         # self.logger.debug("save racer current")
-        return
 
-    # TODO
-    def save_racer_finish(self, racer, race):
-        # self.logger.debug("save racer finish")
-        return
+    @staticmethod
+    def save_racer_finish(racer):
+        RaceParticipants.objects(
+            raceParticipantsId=racer['raceParticipantsId'],
+            petId=racer['petId']
+        ).update(
+            finished=True,
+            finishPosition=racer['finish_position'],
+            finishTime=racer['finish_time']
+        )
 
-    # TODO
-    def save_racer_current_point(self, racer, current_race, race_sample):
-        # self.logger.debug("save current point")
-        return
+    @staticmethod
+    def save_racer_current_point(current_race, racer, race_sample):
+        uuid = uuid_from_time(datetime.utcnow())
+        RaceData.create(
+            raceDataId=uuid,
+            petId=racer['petId'],
+            raceId=current_race['raceId'],
+            petName=racer['petName'],
+            petCategoryName=current_race['petCategoryName'],
+            petCategoryId=current_race['petCategoryId'],
+            interval=race_sample['sample_iteration'],
+            runnerDistance=race_sample['distance_this_sample'],
+            runnerPreviousDistance=race_sample['previous_distance'],
+            startTime=current_race['startTime'],
+            finished=race_sample['finished']
+        )
 
-    def save_race(self, current_race, current_racers,current_racer_positions):
-        # self.logger.debug("save race")
-        return
+    @staticmethod
+    def update_race_winner(current_race):
+        Race.objects(raceId=current_race['raceId']).update(winnerId=current_race['winnerId'])
+
+    @staticmethod
+    def update_race(current_race, racers):
+        for racer in racers:
+            uuid = uuid_from_time(datetime.utcnow())
+            RaceResults.create(
+                raceResultsId=uuid,
+                raceId=current_race['raceId'],
+                raceParticipantId=racer['racerId'],
+                petName=racer['petName'],
+                petCategoryName=current_race['petCategoryName'],
+                finishPosition=racer['finish_position'],
+                finishTime=racer['finish_time'],
+                startTime=race['startTime']
+            )
