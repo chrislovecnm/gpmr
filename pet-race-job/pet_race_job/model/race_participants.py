@@ -19,7 +19,7 @@ from cassandra.cqlengine.models import Model
 
 # first, define a model
 class RaceParticipants(Model):
-    raceParticipantId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    raceParticipantsId = columns.UUID(primary_key=True, default=uuid.uuid4)
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
     raceId = columns.UUID(index=True, default=uuid.uuid4)
     petName = columns.Text(index=True)

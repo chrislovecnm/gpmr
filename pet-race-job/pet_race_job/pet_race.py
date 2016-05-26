@@ -74,26 +74,18 @@ class PetRace(object):
 
         return n
 
-    # TODO
     def save_normal(self, normals, loc, scale, size):
         self.data_source.save_normal(normals, loc, scale, size, self.race)
 
-    # TODO
-    # def save_racer_current(self, racer_guid, finished):
-    #    racer = self.racers[racer_guid]
-    #    self.data_source.save_racer_current(racer, self.race, finished)
-
-    # TODO
     def save_racer_finish(self, racer_id):
         racer = self.racers[racer_id]
         self.data_source.save_racer_finish(racer)
 
-    # TODO
     def save_racer_current_point(self, racer, race_sample):
         self.data_source.save_racer_current_point(self.race, racer, race_sample)
 
-    def update_race(self):
-        self.data_source.update_race(self.race, self.racers)
+    def update_race(self, race, racers):
+        self.data_source.update_race(race, racers)
 
     def update_race_winner(self):
         self.data_source.update_race_winner(self.race)
@@ -117,7 +109,7 @@ class PetRace(object):
 
     def run_race(self):
         logging.debug("Starting a race")
-        n = 0
+        n = 1
         racers_finished_times = []
         position = 0
         while True:
@@ -190,6 +182,6 @@ class PetRace(object):
         # end while
         # self.logger.debug("saving race")
 
-        self.update_race()
+        self.update_race(self.race,self.racers)
 
         # TODO save race data
