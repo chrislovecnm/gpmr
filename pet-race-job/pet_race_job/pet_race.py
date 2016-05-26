@@ -1,8 +1,8 @@
 import logging
-
-import numpy
 from decimal import *
 from operator import itemgetter
+
+import numpy
 
 from pet_race_job.pet_race_cassandra_data_store import PetRaceCassandraDataStore
 
@@ -97,11 +97,12 @@ class PetRace(object):
         else:
             return current_distance, False
 
-    def calc_finish_time(self, previous_distance, distance_this_sample, number_of_seconds):
+    @staticmethod
+    def calc_finish_time(previous_distance, distance_this_sample, number_of_seconds, race_length):
         previous_distance = Decimal(previous_distance)
         distance_this_sample = Decimal(distance_this_sample)
         number_of_seconds = Decimal(number_of_seconds)
-        distance_ran_to_finish = self.race_length - previous_distance
+        distance_ran_to_finish = race_length - previous_distance
         time_this_sample = distance_ran_to_finish / distance_this_sample
         finish_time = number_of_seconds + time_this_sample
 
@@ -137,11 +138,11 @@ class PetRace(object):
                     'previous_distance': previous_distance,
                     'distance_this_sample': distance_this_sample,
                     'sample_iteration': n,
-                    'finished' : False
+                    'finished': False
                 }
 
                 if finished:
-                    finish_time = self.calc_finish_time(previous_distance, distance_this_sample, n)
+                    finish_time = self.calc_finish_time(previous_distance, distance_this_sample, n, self.race_length)
                     racers_finished_this_iteration.append(racer)
                     race_sample['finished'] = True
                     race_sample['finish_time'] = finish_time
@@ -182,6 +183,6 @@ class PetRace(object):
         # end while
         # self.logger.debug("saving race")
 
-        self.update_race(self.race,self.racers)
+        self.update_race(self.race, self.racers)
 
         # TODO save race data

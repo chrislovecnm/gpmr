@@ -1,10 +1,7 @@
-from __future__ import absolute_import
-
 import csv
 import glob
 import logging
 import os
-
 from datetime import datetime
 
 from cassandra.cqlengine.connection import get_session

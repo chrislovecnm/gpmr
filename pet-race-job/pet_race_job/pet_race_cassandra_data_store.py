@@ -191,10 +191,9 @@ class PetRaceCassandraDataStore(object):
     def update_race_winner(current_race):
         Race.objects(raceId=current_race['raceId']).update(winnerId=current_race['winnerId'])
 
-    def update_race(self, current_race, current_racers):
+    @staticmethod
+    def update_race(current_race, current_racers):
         for key, value in current_racers.items():
-            self.logger.debug("current racer: %s", key)
-            self.logger.debug("current racer id: %s", value['raceParticipantsId'])
             uuid = uuid_from_time(datetime.utcnow())
             RaceResults.create(
                 raceResultsId=uuid,
