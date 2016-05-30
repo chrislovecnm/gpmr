@@ -46,7 +46,7 @@ RUN set -ex \
 	&& make install \
 	&& pip3 install --no-cache-dir --upgrade --ignore-installed pip==$PYTHON_PIP_VERSION \
   && pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
-	&& pip3 install nose sphinx \
+	&& pip3 install nose sphinx \ 
 	&& pip install cassandra-driver pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local -depth \
 		\( \

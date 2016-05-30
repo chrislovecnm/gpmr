@@ -10,7 +10,7 @@ RUN set -ex \
   && cd ../../ \
 	&& apk del .fetch-deps \
 	&& rm -rf "gpmr-${RELEASE}" ~/.cache
-	&& 	&& find /usr/local -depth \
+	&& 	find /usr/local -depth \
 			\( \
 			    \( -type d -a -name test -o -name tests \) \
 			    -o \
