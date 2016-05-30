@@ -8,7 +8,7 @@ from pet_race_job.pet_race import PetRace
 
 def main(arg):
 
-    options, remainder = getopt.getopt(arg[1:], 'h',
+    options, remainder = getopt.getopt(arg[1:], 'h:d:l:p:s',
                                        ['description=',
                                         'length=',
                                         'pet=',
@@ -28,13 +28,13 @@ def main(arg):
     scale = None
 
     for opt, arg in options:
-        if opt in '--description':
+        if opt in ('--description', '-d'):
             description = str(arg)
-        if opt in '--length':
+        if opt in ('--length', '-l'):
             length = int(arg)
-        if opt in '--pet':
+        if opt in ('--pet', '-p'):
             pet = str(arg)
-        if opt in '--scale':
+        if opt in ('--scale', '-s'):
             scale = int(arg)
         if opt in ('-h', '--help'):
             print("usage: read the code")
