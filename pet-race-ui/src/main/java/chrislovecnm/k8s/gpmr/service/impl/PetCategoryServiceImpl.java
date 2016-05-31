@@ -30,8 +30,7 @@ public class PetCategoryServiceImpl implements PetCategoryService {
      */
     public PetCategory save(PetCategory petCategory) {
         log.debug("Request to save PetCategory : {}", petCategory);
-        PetCategory result = petCategoryRepository.save(petCategory);
-        return result;
+        return petCategoryRepository.save(petCategory);
     }
 
     /**
@@ -41,8 +40,7 @@ public class PetCategoryServiceImpl implements PetCategoryService {
      */
     public List<PetCategory> findAll() {
         log.debug("Request to get all PetCategories");
-        List<PetCategory> result = petCategoryRepository.findAll();
-        return result;
+        return petCategoryRepository.findAll();
     }
 
     /**
@@ -53,8 +51,7 @@ public class PetCategoryServiceImpl implements PetCategoryService {
      */
     public PetCategory findOne(String id) {
         log.debug("Request to get PetCategory : {}", id);
-        PetCategory petCategory = petCategoryRepository.findOne(UUID.fromString(id));
-        return petCategory;
+        return petCategoryRepository.findOne(UUID.fromString(id));
     }
 
     /**

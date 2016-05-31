@@ -87,8 +87,7 @@ public class RaceResultResource {
     @Timed
     public List<RaceResult> getAllRaceResults() {
         log.debug("REST request to get all RaceResults");
-        List<RaceResult> raceResults = raceResultRepository.findAll();
-        return raceResults;
+        return raceResultRepository.findAll();
     }
 
     /**

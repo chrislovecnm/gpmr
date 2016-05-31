@@ -30,8 +30,7 @@ public class PetServiceImpl implements PetService {
      */
     public Pet save(Pet pet) {
         log.debug("Request to save Pet : {}", pet);
-        Pet result = petRepository.save(pet);
-        return result;
+        return petRepository.save(pet);
     }
 
     /**
@@ -41,8 +40,7 @@ public class PetServiceImpl implements PetService {
      */
     public List<Pet> findAll() {
         log.debug("Request to get all Pets");
-        List<Pet> result = petRepository.findAll();
-        return result;
+        return petRepository.findAll();
     }
 
     /**
@@ -53,8 +51,7 @@ public class PetServiceImpl implements PetService {
      */
     public Pet findOne(String id) {
         log.debug("Request to get Pet : {}", id);
-        Pet pet = petRepository.findOne(UUID.fromString(id));
-        return pet;
+        return petRepository.findOne(UUID.fromString(id));
     }
 
     /**

@@ -1,7 +1,5 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
-import chrislovecnm.k8s.gpmr.domain.PetCategories;
-import chrislovecnm.k8s.gpmr.service.PetCategoriesService;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
