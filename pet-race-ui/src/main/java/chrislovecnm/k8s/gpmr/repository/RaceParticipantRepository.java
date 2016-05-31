@@ -50,7 +50,7 @@ public class RaceParticipantRepository {
                 raceParticipant.setPetCategoryName(row.getString("petCategoryName"));
                 raceParticipant.setPetCategoryId(row.getUUID("petCategoryId"));
                 raceParticipant.setStartTime(row.getDate("startTime"));
-                raceParticipant.setFinishTime(row.getDouble("finishTime"));
+                raceParticipant.setFinishTime(row.getDecimal("finishTime"));
                 raceParticipant.setFinishPosition(row.getInt("finishPosition"));
                 raceParticipant.setFinished(row.getBool("finished"));
                 return raceParticipant;

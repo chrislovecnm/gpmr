@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +51,7 @@ public class RaceNormalRepository {
                 raceNormal.setNormalLoc(row.getFloat("normalLoc"));
                 raceNormal.setNormalScale(row.getFloat("normalScale"));
                 raceNormal.setNormalSize(row.getInt("normalSize"));
+                raceNormal.setNormals(row.getList("normals", BigDecimal.class));
                 return raceNormal;
             }
         ).forEach(raceNormals::add);

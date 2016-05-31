@@ -52,6 +52,7 @@ public class RaceRepository {
                 race.setStartTime(row.getDate("startTime"));
                 race.setEndTime(row.getDate("endTime"));
                 race.setBaseSpeed(row.getFloat("baseSpeed"));
+                race.setRacerIds(row.getList("racerIds", UUID.class));
                 return race;
             }
         ).forEach(races::add);

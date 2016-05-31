@@ -51,7 +51,7 @@ public class RaceResultRepository {
                 raceResult.setPetColor(row.getUUID("petColor"));
                 raceResult.setPetCategoryName(row.getString("petCategoryName"));
                 raceResult.setFinishPosition(row.getInt("finishPosition"));
-                raceResult.setFinishTime(row.getDouble("finishTime"));
+                raceResult.setFinishTime(row.getDecimal("finishTime"));
                 raceResult.setStartTime(row.getDate("startTime"));
                 return raceResult;
             }

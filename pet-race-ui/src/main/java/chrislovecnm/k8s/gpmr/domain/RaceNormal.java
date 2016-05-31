@@ -1,9 +1,12 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.*;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -34,6 +37,8 @@ public class RaceNormal implements Serializable {
     private Float normalScale;
 
     private Integer normalSize;
+
+    private List<BigDecimal> normals;
 
     public UUID getId() {
         return id;
@@ -107,6 +112,14 @@ public class RaceNormal implements Serializable {
         this.normalSize = normalSize;
     }
 
+    public List<BigDecimal> getNormals() {
+        return this.normals;
+    }
+
+    public void setNormals(List<BigDecimal> normals) {
+        this.normals = normals;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -116,7 +129,7 @@ public class RaceNormal implements Serializable {
             return false;
         }
         RaceNormal raceNormal = (RaceNormal) o;
-        if(raceNormal.id == null || id == null) {
+        if (raceNormal.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, raceNormal.id);

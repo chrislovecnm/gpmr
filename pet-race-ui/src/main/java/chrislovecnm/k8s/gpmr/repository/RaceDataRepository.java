@@ -40,21 +40,21 @@ public class RaceDataRepository {
         BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
-                RaceData raceData = new RaceData();
-                raceData.setId(row.getUUID("id"));
-                raceData.setRaceDataId(row.getUUID("raceDataId"));
-                raceData.setPetId(row.getUUID("petId"));
-                raceData.setRaceId(row.getUUID("raceId"));
-                raceData.setPetName(row.getString("petName"));
-                raceData.setPetCategoryName(row.getString("petCategoryName"));
-                raceData.setPetCategoryId(row.getUUID("petCategoryId"));
-                raceData.setInterval(row.getInt("interval"));
-                raceData.setRunnerPosition(row.getInt("runnerPosition"));
-                raceData.setRunnerDistance(row.getDouble("runnerDistance"));
-                raceData.setStartTime(row.getDate("startTime"));
-                raceData.setFinished(row.getBool("finished"));
-                raceData.setRunnerPreviousDistance(row.getDouble("runnerPreviousDistance"));
-                return raceData;
+                RaceData rd = new RaceData();
+                rd.setId(row.getUUID("id"));
+                rd.setRaceDataId(row.getUUID("raceDataId"));
+                rd.setPetId(row.getUUID("petId"));
+                rd.setRaceId(row.getUUID("raceId"));
+                rd.setPetName(row.getString("petName"));
+                rd.setPetCategoryName(row.getString("petCategoryName"));
+                rd.setPetCategoryId(row.getUUID("petCategoryId"));
+                rd.setInterval(row.getInt("interval"));
+                rd.setRunnerPosition(row.getInt("runnerPosition"));
+                rd.setRunnerDistance(row.getDouble("runnerDistance"));
+                rd.setStartTime(row.getDate("startTime"));
+                rd.setFinished(row.getBool("finished"));
+                rd.setRunnerPreviousDistance(row.getDouble("runnerPreviousDistance"));
+                return rd;
             }
         ).forEach(raceData::add);
         return raceData;

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.List;
 
 /**
  * A Race.
@@ -38,6 +39,8 @@ public class Race implements Serializable {
     private Date endTime;
 
     private Float baseSpeed;
+
+    private List<UUID> racersIds;
 
     public UUID getId() {
         return id;
@@ -125,6 +128,13 @@ public class Race implements Serializable {
 
     public void setBaseSpeed(Float baseSpeed) {
         this.baseSpeed = baseSpeed;
+    }
+
+    public List<UUID> getRacersIds() {
+        return racersIds;
+    }
+    public void setRacerIds(List<UUID> racersIds) {
+        this.racersIds = racersIds;
     }
 
     @Override
