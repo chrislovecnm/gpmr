@@ -1,11 +1,15 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.RaceResult;
 import chrislovecnm.k8s.gpmr.repository.RaceResultRepository;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
-import com.codahale.metrics.annotation.Timed;
+import chrislovecnm.k8s.gpmr.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +30,10 @@ import java.util.UUID;
 public class RaceResultResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceResultResource.class);
-
+        
     @Inject
     private RaceResultRepository raceResultRepository;
-
+    
     /**
      * POST  /race-results : Create a new raceResult.
      *
@@ -79,15 +83,20 @@ public class RaceResultResource {
     /**
      * GET  /race-results : get all the raceResults.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of raceResults in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/race-results",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<RaceResult> getAllRaceResults() {
-        log.debug("REST request to get all RaceResults");
-        return raceResultRepository.findAll();
+    public ResponseEntity<List<RaceResult>> getAllRaceResults(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of RaceResults");
+        Page<RaceResult> page = raceResultRepository.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-results");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

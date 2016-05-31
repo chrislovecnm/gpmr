@@ -1,13 +1,15 @@
 
 CREATE TABLE IF NOT EXISTS race (
     id uuid,
+    raceId uuid,
+    petCategoryId uuid,
+    petCategoryName text,
     numOfPets int,
     length int,
-    numOfSamples int,
+    description text,
     winnerId uuid,
-    winnerName text,
-    winnnerPetCategory text,
     startTime timestamp,
     endTime timestamp,
+    baseSpeed float,
     PRIMARY KEY(id)
 );

@@ -1,9 +1,9 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,17 +19,29 @@ public class RaceData implements Serializable {
     @PartitionKey
     private UUID id;
 
+    private UUID raceDataId;
+
     private UUID petId;
+
+    private UUID raceId;
 
     private String petName;
 
-    private String petCategory;
+    private String petCategoryName;
 
     private UUID petCategoryId;
 
-    private Integer runnerPostion;
+    private Integer interval;
 
-    private String runnerSashColor;
+    private Integer runnerPosition;
+
+    private Double runnerDistance;
+
+    private Date startTime;
+
+    private Boolean finished;
+
+    private Double runnerPreviousDistance;
 
     public UUID getId() {
         return id;
@@ -37,6 +49,14 @@ public class RaceData implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getRaceDataId() {
+        return raceDataId;
+    }
+
+    public void setRaceDataId(UUID raceDataId) {
+        this.raceDataId = raceDataId;
     }
 
     public UUID getPetId() {
@@ -47,6 +67,14 @@ public class RaceData implements Serializable {
         this.petId = petId;
     }
 
+    public UUID getRaceId() {
+        return raceId;
+    }
+
+    public void setRaceId(UUID raceId) {
+        this.raceId = raceId;
+    }
+
     public String getPetName() {
         return petName;
     }
@@ -55,12 +83,12 @@ public class RaceData implements Serializable {
         this.petName = petName;
     }
 
-    public String getPetCategory() {
-        return petCategory;
+    public String getPetCategoryName() {
+        return petCategoryName;
     }
 
-    public void setPetCategory(String petCategory) {
-        this.petCategory = petCategory;
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
     }
 
     public UUID getPetCategoryId() {
@@ -71,20 +99,52 @@ public class RaceData implements Serializable {
         this.petCategoryId = petCategoryId;
     }
 
-    public Integer getRunnerPostion() {
-        return runnerPostion;
+    public Integer getInterval() {
+        return interval;
     }
 
-    public void setRunnerPostion(Integer runnerPostion) {
-        this.runnerPostion = runnerPostion;
+    public void setInterval(Integer interval) {
+        this.interval = interval;
     }
 
-    public String getRunnerSashColor() {
-        return runnerSashColor;
+    public Integer getRunnerPosition() {
+        return runnerPosition;
     }
 
-    public void setRunnerSashColor(String runnerSashColor) {
-        this.runnerSashColor = runnerSashColor;
+    public void setRunnerPosition(Integer runnerPosition) {
+        this.runnerPosition = runnerPosition;
+    }
+
+    public Double getRunnerDistance() {
+        return runnerDistance;
+    }
+
+    public void setRunnerDistance(Double runnerDistance) {
+        this.runnerDistance = runnerDistance;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
+    }
+
+    public Double getRunnerPreviousDistance() {
+        return runnerPreviousDistance;
+    }
+
+    public void setRunnerPreviousDistance(Double runnerPreviousDistance) {
+        this.runnerPreviousDistance = runnerPreviousDistance;
     }
 
     @Override
@@ -96,7 +156,7 @@ public class RaceData implements Serializable {
             return false;
         }
         RaceData raceData = (RaceData) o;
-        if (raceData.id == null || id == null) {
+        if(raceData.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, raceData.id);
@@ -111,12 +171,18 @@ public class RaceData implements Serializable {
     public String toString() {
         return "RaceData{" +
             "id=" + id +
+            ", raceDataId='" + raceDataId + "'" +
             ", petId='" + petId + "'" +
+            ", raceId='" + raceId + "'" +
             ", petName='" + petName + "'" +
-            ", petCategory='" + petCategory + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
             ", petCategoryId='" + petCategoryId + "'" +
-            ", runnerPostion='" + runnerPostion + "'" +
-            ", runnerSashColor='" + runnerSashColor + "'" +
+            ", interval='" + interval + "'" +
+            ", runnerPosition='" + runnerPosition + "'" +
+            ", runnerDistance='" + runnerDistance + "'" +
+            ", startTime='" + startTime + "'" +
+            ", finished='" + finished + "'" +
+            ", runnerPreviousDistance='" + runnerPreviousDistance + "'" +
             '}';
     }
 }

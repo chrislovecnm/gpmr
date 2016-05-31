@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,7 +18,11 @@ public class PetCategory implements Serializable {
     @PartitionKey
     private UUID id;
 
+    private UUID petCategoryId;
+
     private String name;
+
+    private Float speed;
 
     public UUID getId() {
         return id;
@@ -29,12 +32,28 @@ public class PetCategory implements Serializable {
         this.id = id;
     }
 
+    public UUID getPetCategoryId() {
+        return petCategoryId;
+    }
+
+    public void setPetCategoryId(UUID petCategoryId) {
+        this.petCategoryId = petCategoryId;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Float speed) {
+        this.speed = speed;
     }
 
     @Override
@@ -46,7 +65,7 @@ public class PetCategory implements Serializable {
             return false;
         }
         PetCategory petCategory = (PetCategory) o;
-        if (petCategory.id == null || id == null) {
+        if(petCategory.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, petCategory.id);
@@ -61,7 +80,9 @@ public class PetCategory implements Serializable {
     public String toString() {
         return "PetCategory{" +
             "id=" + id +
+            ", petCategoryId='" + petCategoryId + "'" +
             ", name='" + name + "'" +
+            ", speed='" + speed + "'" +
             '}';
     }
 }

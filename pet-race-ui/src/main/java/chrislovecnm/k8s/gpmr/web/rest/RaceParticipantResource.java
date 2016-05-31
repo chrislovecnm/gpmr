@@ -1,11 +1,15 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.RaceParticipant;
 import chrislovecnm.k8s.gpmr.repository.RaceParticipantRepository;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
-import com.codahale.metrics.annotation.Timed;
+import chrislovecnm.k8s.gpmr.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +30,10 @@ import java.util.UUID;
 public class RaceParticipantResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceParticipantResource.class);
-
+        
     @Inject
     private RaceParticipantRepository raceParticipantRepository;
-
+    
     /**
      * POST  /race-participants : Create a new raceParticipant.
      *
@@ -79,15 +83,20 @@ public class RaceParticipantResource {
     /**
      * GET  /race-participants : get all the raceParticipants.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of raceParticipants in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/race-participants",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<RaceParticipant> getAllRaceParticipants() {
-        log.debug("REST request to get all RaceParticipants");
-        return raceParticipantRepository.findAll();
+    public ResponseEntity<List<RaceParticipant>> getAllRaceParticipants(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of RaceParticipants");
+        Page<RaceParticipant> page = raceParticipantRepository.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-participants");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

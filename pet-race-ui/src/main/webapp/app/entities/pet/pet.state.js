@@ -62,8 +62,10 @@
                     resolve: {
                         entity: function () {
                             return {
+                                petId: null,
                                 name: null,
-                                petCategory: null,
+                                description: null,
+                                petCategoryName: null,
                                 petCategoryId: null,
                                 petSpeed: null,
                                 id: null

@@ -1,9 +1,8 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.Race;
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.Session;
+
+import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.stereotype.Repository;
@@ -38,19 +37,21 @@ public class RaceRepository {
 
     public List<Race> findAll() {
         List<Race> races = new ArrayList<>();
-        BoundStatement stmt = findAllStmt.bind();
+        BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
                 Race race = new Race();
                 race.setId(row.getUUID("id"));
+                race.setRaceId(row.getUUID("raceId"));
+                race.setPetCategoryId(row.getUUID("petCategoryId"));
+                race.setPetCategoryName(row.getString("petCategoryName"));
                 race.setNumOfPets(row.getInt("numOfPets"));
                 race.setLength(row.getInt("length"));
-                race.setNumOfSamples(row.getInt("numOfSamples"));
+                race.setDescription(row.getString("description"));
                 race.setWinnerId(row.getUUID("winnerId"));
-                race.setWinnerName(row.getString("winnerName"));
-                race.setWinnnerPetCategory(row.getString("winnnerPetCategory"));
                 race.setStartTime(row.getDate("startTime"));
                 race.setEndTime(row.getDate("endTime"));
+                race.setBaseSpeed(row.getFloat("baseSpeed"));
                 return race;
             }
         ).forEach(races::add);
@@ -74,7 +75,7 @@ public class RaceRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt = truncateStmt.bind();
+        BoundStatement stmt =  truncateStmt.bind();
         session.execute(stmt);
     }
 }

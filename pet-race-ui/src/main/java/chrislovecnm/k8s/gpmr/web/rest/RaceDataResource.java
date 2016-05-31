@@ -1,11 +1,15 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.RaceData;
 import chrislovecnm.k8s.gpmr.repository.RaceDataRepository;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
-import com.codahale.metrics.annotation.Timed;
+import chrislovecnm.k8s.gpmr.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +30,10 @@ import java.util.UUID;
 public class RaceDataResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceDataResource.class);
-
+        
     @Inject
     private RaceDataRepository raceDataRepository;
-
+    
     /**
      * POST  /race-data : Create a new raceData.
      *
@@ -79,15 +83,20 @@ public class RaceDataResource {
     /**
      * GET  /race-data : get all the raceData.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of raceData in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/race-data",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<RaceData> getAllRaceData() {
-        log.debug("REST request to get all RaceData");
-        return raceDataRepository.findAll();
+    public ResponseEntity<List<RaceData>> getAllRaceData(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of RaceData");
+        Page<RaceData> page = raceDataRepository.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-data");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

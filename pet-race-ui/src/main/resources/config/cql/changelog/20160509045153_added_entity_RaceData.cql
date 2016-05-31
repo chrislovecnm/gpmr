@@ -1,11 +1,17 @@
 
 CREATE TABLE IF NOT EXISTS raceData (
     id uuid,
+    raceDataId uuid,
     petId uuid,
+    raceId uuid,
     petName text,
-    petCategory text,
+    petCategoryName text,
     petCategoryId uuid,
-    runnerPostion int,
-    runnerSashColor text,
+    interval int,
+    runnerPosition int,
+    runnerDistance double,
+    startTime timestamp,
+    finished boolean,
+    runnerPreviousDistance double,
     PRIMARY KEY(id)
 );

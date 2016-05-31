@@ -1,9 +1,11 @@
 
 CREATE TABLE IF NOT EXISTS pet (
     id uuid,
+    petId uuid,
     name text,
-    petCategory text,
+    description text,
+    petCategoryName text,
     petCategoryId uuid,
-    petSpeed decimal,
+    petSpeed float,
     PRIMARY KEY(id)
 );

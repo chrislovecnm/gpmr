@@ -1,9 +1,8 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.RaceParticipant;
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.Session;
+
+import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.stereotype.Repository;
@@ -38,18 +37,22 @@ public class RaceParticipantRepository {
 
     public List<RaceParticipant> findAll() {
         List<RaceParticipant> raceParticipants = new ArrayList<>();
-        BoundStatement stmt = findAllStmt.bind();
+        BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
                 RaceParticipant raceParticipant = new RaceParticipant();
                 raceParticipant.setId(row.getUUID("id"));
+                raceParticipant.setRaceParticipantId(row.getUUID("raceParticipantId"));
                 raceParticipant.setPetId(row.getUUID("petId"));
-                raceParticipant.setPetName(row.getString("petName"));
-                raceParticipant.setPetType(row.getString("petType"));
-                raceParticipant.setPetColor(row.getString("petColor"));
-                raceParticipant.setPetCategory(row.getString("petCategory"));
-                raceParticipant.setPetCategoryId(row.getString("petCategoryId"));
                 raceParticipant.setRaceId(row.getUUID("raceId"));
+                raceParticipant.setPetName(row.getString("petName"));
+                raceParticipant.setPetColor(row.getUUID("petColor"));
+                raceParticipant.setPetCategoryName(row.getString("petCategoryName"));
+                raceParticipant.setPetCategoryId(row.getUUID("petCategoryId"));
+                raceParticipant.setStartTime(row.getDate("startTime"));
+                raceParticipant.setFinishTime(row.getDouble("finishTime"));
+                raceParticipant.setFinishPosition(row.getInt("finishPosition"));
+                raceParticipant.setFinished(row.getBool("finished"));
                 return raceParticipant;
             }
         ).forEach(raceParticipants::add);
@@ -73,7 +76,7 @@ public class RaceParticipantRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt = truncateStmt.bind();
+        BoundStatement stmt =  truncateStmt.bind();
         session.execute(stmt);
     }
 }

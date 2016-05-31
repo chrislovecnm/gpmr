@@ -62,7 +62,9 @@
                     resolve: {
                         entity: function () {
                             return {
+                                petCategoryId: null,
                                 name: null,
+                                speed: null,
                                 id: null
                             };
                         }

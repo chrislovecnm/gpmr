@@ -19,8 +19,10 @@
             <thead>
                 <tr>
                     <th><span>ID</span></th>
+                    <th><span>Pet Id</span></th>
                     <th><span>Name</span></th>
-                    <th><span>Pet Category</span></th>
+                    <th><span>Description</span></th>
+                    <th><span>Pet Category Name</span></th>
                     <th><span>Pet Category Id</span></th>
                     <th><span>Pet Speed</span></th>
                     <th></th>
@@ -29,8 +31,10 @@
             <tbody>
                 <tr ng-repeat="pet in vm.pets track by pet.id">
                     <td><a ui-sref="pet-detail({id:pet.id})">{{pet.id}}</a></td>
+                    <td>{{pet.petId}}</td>
                     <td>{{pet.name}}</td>
-                    <td>{{pet.petCategory}}</td>
+                    <td>{{pet.description}}</td>
+                    <td>{{pet.petCategoryName}}</td>
                     <td>{{pet.petCategoryId}}</td>
                     <td>{{pet.petSpeed}}</td>
                     <td class="text-right">

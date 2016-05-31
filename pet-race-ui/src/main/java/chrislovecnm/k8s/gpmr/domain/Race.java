@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,21 +19,25 @@ public class Race implements Serializable {
     @PartitionKey
     private UUID id;
 
+    private UUID raceId;
+
+    private UUID petCategoryId;
+
+    private String petCategoryName;
+
     private Integer numOfPets;
 
     private Integer length;
 
-    private Integer numOfSamples;
+    private String description;
 
     private UUID winnerId;
-
-    private String winnerName;
-
-    private String winnnerPetCategory;
 
     private Date startTime;
 
     private Date endTime;
+
+    private Float baseSpeed;
 
     public UUID getId() {
         return id;
@@ -42,6 +45,30 @@ public class Race implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getRaceId() {
+        return raceId;
+    }
+
+    public void setRaceId(UUID raceId) {
+        this.raceId = raceId;
+    }
+
+    public UUID getPetCategoryId() {
+        return petCategoryId;
+    }
+
+    public void setPetCategoryId(UUID petCategoryId) {
+        this.petCategoryId = petCategoryId;
+    }
+
+    public String getPetCategoryName() {
+        return petCategoryName;
+    }
+
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
     }
 
     public Integer getNumOfPets() {
@@ -60,12 +87,12 @@ public class Race implements Serializable {
         this.length = length;
     }
 
-    public Integer getNumOfSamples() {
-        return numOfSamples;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNumOfSamples(Integer numOfSamples) {
-        this.numOfSamples = numOfSamples;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public UUID getWinnerId() {
@@ -74,22 +101,6 @@ public class Race implements Serializable {
 
     public void setWinnerId(UUID winnerId) {
         this.winnerId = winnerId;
-    }
-
-    public String getWinnerName() {
-        return winnerName;
-    }
-
-    public void setWinnerName(String winnerName) {
-        this.winnerName = winnerName;
-    }
-
-    public String getWinnnerPetCategory() {
-        return winnnerPetCategory;
-    }
-
-    public void setWinnnerPetCategory(String winnnerPetCategory) {
-        this.winnnerPetCategory = winnnerPetCategory;
     }
 
     public Date getStartTime() {
@@ -108,6 +119,14 @@ public class Race implements Serializable {
         this.endTime = endTime;
     }
 
+    public Float getBaseSpeed() {
+        return baseSpeed;
+    }
+
+    public void setBaseSpeed(Float baseSpeed) {
+        this.baseSpeed = baseSpeed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -117,7 +136,7 @@ public class Race implements Serializable {
             return false;
         }
         Race race = (Race) o;
-        if (race.id == null || id == null) {
+        if(race.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, race.id);
@@ -132,14 +151,16 @@ public class Race implements Serializable {
     public String toString() {
         return "Race{" +
             "id=" + id +
+            ", raceId='" + raceId + "'" +
+            ", petCategoryId='" + petCategoryId + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
             ", numOfPets='" + numOfPets + "'" +
             ", length='" + length + "'" +
-            ", numOfSamples='" + numOfSamples + "'" +
+            ", description='" + description + "'" +
             ", winnerId='" + winnerId + "'" +
-            ", winnerName='" + winnerName + "'" +
-            ", winnnerPetCategory='" + winnnerPetCategory + "'" +
             ", startTime='" + startTime + "'" +
             ", endTime='" + endTime + "'" +
+            ", baseSpeed='" + baseSpeed + "'" +
             '}';
     }
 }

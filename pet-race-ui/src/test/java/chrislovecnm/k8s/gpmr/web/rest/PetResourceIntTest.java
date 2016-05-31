@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.math.BigDecimal;;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,16 +43,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class PetResourceIntTest extends AbstractCassandraTest {
 
+
+    private static final UUID DEFAULT_PET_ID = UUID.randomUUID();
+    private static final UUID UPDATED_PET_ID = UUID.randomUUID();
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
-    private static final String DEFAULT_PET_CATEGORY = "AAAAA";
-    private static final String UPDATED_PET_CATEGORY = "BBBBB";
+    private static final String DEFAULT_DESCRIPTION = "AAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBB";
+    private static final String DEFAULT_PET_CATEGORY_NAME = "AAAAA";
+    private static final String UPDATED_PET_CATEGORY_NAME = "BBBBB";
 
     private static final UUID DEFAULT_PET_CATEGORY_ID = UUID.randomUUID();
     private static final UUID UPDATED_PET_CATEGORY_ID = UUID.randomUUID();
 
-    private static final BigDecimal DEFAULT_PET_SPEED = new BigDecimal(1);
-    private static final BigDecimal UPDATED_PET_SPEED = new BigDecimal(2);
+    private static final Float DEFAULT_PET_SPEED = 1F;
+    private static final Float UPDATED_PET_SPEED = 2F;
 
     @Inject
     private PetRepository petRepository;
@@ -85,8 +89,10 @@ public class PetResourceIntTest extends AbstractCassandraTest {
     public void initTest() {
         petRepository.deleteAll();
         pet = new Pet();
+        pet.setPetId(DEFAULT_PET_ID);
         pet.setName(DEFAULT_NAME);
-        pet.setPetCategory(DEFAULT_PET_CATEGORY);
+        pet.setDescription(DEFAULT_DESCRIPTION);
+        pet.setPetCategoryName(DEFAULT_PET_CATEGORY_NAME);
         pet.setPetCategoryId(DEFAULT_PET_CATEGORY_ID);
         pet.setPetSpeed(DEFAULT_PET_SPEED);
     }
@@ -106,8 +112,10 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         List<Pet> pets = petRepository.findAll();
         assertThat(pets).hasSize(databaseSizeBeforeCreate + 1);
         Pet testPet = pets.get(pets.size() - 1);
+        assertThat(testPet.getPetId()).isEqualTo(DEFAULT_PET_ID);
         assertThat(testPet.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testPet.getPetCategory()).isEqualTo(DEFAULT_PET_CATEGORY);
+        assertThat(testPet.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testPet.getPetCategoryName()).isEqualTo(DEFAULT_PET_CATEGORY_NAME);
         assertThat(testPet.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
         assertThat(testPet.getPetSpeed()).isEqualTo(DEFAULT_PET_SPEED);
     }
@@ -122,10 +130,12 @@ public class PetResourceIntTest extends AbstractCassandraTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(pet.getId().toString())))
+                .andExpect(jsonPath("$.[*].petId").value(hasItem(DEFAULT_PET_ID.toString())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].petCategory").value(hasItem(DEFAULT_PET_CATEGORY.toString())))
+                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+                .andExpect(jsonPath("$.[*].petCategoryName").value(hasItem(DEFAULT_PET_CATEGORY_NAME.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
-                .andExpect(jsonPath("$.[*].petSpeed").value(hasItem(DEFAULT_PET_SPEED.intValue())));
+                .andExpect(jsonPath("$.[*].petSpeed").value(hasItem(DEFAULT_PET_SPEED.doubleValue())));
     }
 
     @Test
@@ -138,10 +148,12 @@ public class PetResourceIntTest extends AbstractCassandraTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(pet.getId().toString()))
+            .andExpect(jsonPath("$.petId").value(DEFAULT_PET_ID.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.petCategory").value(DEFAULT_PET_CATEGORY.toString()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.petCategoryName").value(DEFAULT_PET_CATEGORY_NAME.toString()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
-            .andExpect(jsonPath("$.petSpeed").value(DEFAULT_PET_SPEED.intValue()));
+            .andExpect(jsonPath("$.petSpeed").value(DEFAULT_PET_SPEED.doubleValue()));
     }
 
     @Test
@@ -161,8 +173,10 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         // Update the pet
         Pet updatedPet = new Pet();
         updatedPet.setId(pet.getId());
+        updatedPet.setPetId(UPDATED_PET_ID);
         updatedPet.setName(UPDATED_NAME);
-        updatedPet.setPetCategory(UPDATED_PET_CATEGORY);
+        updatedPet.setDescription(UPDATED_DESCRIPTION);
+        updatedPet.setPetCategoryName(UPDATED_PET_CATEGORY_NAME);
         updatedPet.setPetCategoryId(UPDATED_PET_CATEGORY_ID);
         updatedPet.setPetSpeed(UPDATED_PET_SPEED);
 
@@ -175,8 +189,10 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         List<Pet> pets = petRepository.findAll();
         assertThat(pets).hasSize(databaseSizeBeforeUpdate);
         Pet testPet = pets.get(pets.size() - 1);
+        assertThat(testPet.getPetId()).isEqualTo(UPDATED_PET_ID);
         assertThat(testPet.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testPet.getPetCategory()).isEqualTo(UPDATED_PET_CATEGORY);
+        assertThat(testPet.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testPet.getPetCategoryName()).isEqualTo(UPDATED_PET_CATEGORY_NAME);
         assertThat(testPet.getPetCategoryId()).isEqualTo(UPDATED_PET_CATEGORY_ID);
         assertThat(testPet.getPetSpeed()).isEqualTo(UPDATED_PET_SPEED);
     }
