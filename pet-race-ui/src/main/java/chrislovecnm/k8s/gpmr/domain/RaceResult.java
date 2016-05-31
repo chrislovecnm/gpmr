@@ -3,6 +3,7 @@ package chrislovecnm.k8s.gpmr.domain;
 import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class RaceResult implements Serializable {
 
     private Integer finishPosition;
 
-    private Double finishTime;
+    private BigDecimal finishTime;
 
     private Date startTime;
 
@@ -121,11 +122,11 @@ public class RaceResult implements Serializable {
         this.finishPosition = finishPosition;
     }
 
-    public Double getFinishTime() {
+    public BigDecimal getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Double finishTime) {
+    public void setFinishTime(BigDecimal finishTime) {
         this.finishTime = finishTime;
     }
 

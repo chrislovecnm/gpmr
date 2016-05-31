@@ -6,12 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 /**
  * A RaceParticipant.
  */
 
-@Table(name = "raceParticipant")
+@Table(name = "race_participant")
 public class RaceParticipant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +36,7 @@ public class RaceParticipant implements Serializable {
 
     private Date startTime;
 
-    private Double finishTime;
+    private BigDecimal finishTime;
 
     private Integer finishPosition;
 
@@ -113,11 +114,11 @@ public class RaceParticipant implements Serializable {
         this.startTime = startTime;
     }
 
-    public Double getFinishTime() {
+    public BigDecimal getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Double finishTime) {
+    public void setFinishTime(BigDecimal finishTime) {
         this.finishTime = finishTime;
     }
 

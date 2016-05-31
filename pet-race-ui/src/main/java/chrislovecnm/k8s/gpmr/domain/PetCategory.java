@@ -10,7 +10,7 @@ import java.util.UUID;
  * A PetCategory.
  */
 
-@Table(name = "petCategory")
+@Table(name = "pet_category")
 public class PetCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;

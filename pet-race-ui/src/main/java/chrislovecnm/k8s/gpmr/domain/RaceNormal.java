@@ -11,7 +11,7 @@ import java.util.UUID;
  * A RaceNormal.
  */
 
-@Table(name = "raceNormal")
+@Table(name = "race_normal")
 public class RaceNormal implements Serializable {
 
     private static final long serialVersionUID = 1L;
