@@ -138,7 +138,6 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         restRaceNormalMockMvc.perform(get("/api/race-normals?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(raceNormal.getId().toString())))
                 .andExpect(jsonPath("$.[*].raceNormalId").value(hasItem(DEFAULT_RACE_NORMAL_ID.toString())))
                 .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
@@ -155,11 +154,10 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         raceNormalRepository.save(raceNormal);
 
         // Get the raceNormal
-        restRaceNormalMockMvc.perform(get("/api/race-normals/{id}", raceNormal.getId()))
+        restRaceNormalMockMvc.perform(get("/api/race-normals/{id}", raceNormal.getRaceId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(raceNormal.getId().toString()))
-            .andExpect(jsonPath("$.raceNormalId").value(DEFAULT_RACE_NORMAL_ID.toString()))
+            .andExpect(jsonPath("$.raceNormalId").value(raceNormal.getRaceNormalId().toString()))
             .andExpect(jsonPath("$.raceId").value(DEFAULT_RACE_ID.toString()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
             .andExpect(jsonPath("$.petCategoryName").value(DEFAULT_PET_CATEGORY_NAME.toString()))
@@ -184,8 +182,7 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
 
         // Update the raceNormal
         RaceNormal updatedRaceNormal = new RaceNormal();
-        updatedRaceNormal.setId(raceNormal.getId());
-        updatedRaceNormal.setRaceNormalId(UPDATED_RACE_NORMAL_ID);
+        updatedRaceNormal.setRaceNormalId(raceNormal.getRaceNormalId());
         updatedRaceNormal.setRaceId(UPDATED_RACE_ID);
         updatedRaceNormal.setPetCategoryId(UPDATED_PET_CATEGORY_ID);
         updatedRaceNormal.setPetCategoryName(UPDATED_PET_CATEGORY_NAME);
@@ -220,7 +217,7 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = raceNormalRepository.findAll().size();
 
         // Get the raceNormal
-        restRaceNormalMockMvc.perform(delete("/api/race-normals/{id}", raceNormal.getId())
+        restRaceNormalMockMvc.perform(delete("/api/race-normals/{id}", raceNormal.getRaceNormalId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

@@ -30,10 +30,10 @@ import java.util.UUID;
 public class RaceParticipantResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceParticipantResource.class);
-        
+
     @Inject
     private RaceParticipantRepository raceParticipantRepository;
-    
+
     /**
      * POST  /race-participants : Create a new raceParticipant.
      *
@@ -47,12 +47,12 @@ public class RaceParticipantResource {
     @Timed
     public ResponseEntity<RaceParticipant> createRaceParticipant(@RequestBody RaceParticipant raceParticipant) throws URISyntaxException {
         log.debug("REST request to save RaceParticipant : {}", raceParticipant);
-        if (raceParticipant.getId() != null) {
+        if (raceParticipant.getRaceParticipantId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("raceParticipant", "idexists", "A new raceParticipant cannot already have an ID")).body(null);
         }
         RaceParticipant result = raceParticipantRepository.save(raceParticipant);
-        return ResponseEntity.created(new URI("/api/race-participants/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("raceParticipant", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/race-participants/" + result.getRaceParticipantId()))
+            .headers(HeaderUtil.createEntityCreationAlert("raceParticipant", result.getRaceParticipantId().toString()))
             .body(result);
     }
 
@@ -71,12 +71,12 @@ public class RaceParticipantResource {
     @Timed
     public ResponseEntity<RaceParticipant> updateRaceParticipant(@RequestBody RaceParticipant raceParticipant) throws URISyntaxException {
         log.debug("REST request to update RaceParticipant : {}", raceParticipant);
-        if (raceParticipant.getId() == null) {
+        if (raceParticipant.getRaceParticipantId() == null) {
             return createRaceParticipant(raceParticipant);
         }
         RaceParticipant result = raceParticipantRepository.save(raceParticipant);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("raceParticipant", raceParticipant.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("raceParticipant", raceParticipant.getRaceParticipantId().toString()))
             .body(result);
     }
 
@@ -94,7 +94,7 @@ public class RaceParticipantResource {
     public ResponseEntity<List<RaceParticipant>> getAllRaceParticipants(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of RaceParticipants");
-        Page<RaceParticipant> page = raceParticipantRepository.findAll(pageable); 
+        Page<RaceParticipant> page = raceParticipantRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-participants");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

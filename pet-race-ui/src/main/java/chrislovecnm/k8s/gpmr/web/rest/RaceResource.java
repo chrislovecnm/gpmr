@@ -30,10 +30,10 @@ import java.util.UUID;
 public class RaceResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceResource.class);
-        
+
     @Inject
     private RaceRepository raceRepository;
-    
+
     /**
      * POST  /races : Create a new race.
      *
@@ -47,12 +47,12 @@ public class RaceResource {
     @Timed
     public ResponseEntity<Race> createRace(@RequestBody Race race) throws URISyntaxException {
         log.debug("REST request to save Race : {}", race);
-        if (race.getId() != null) {
+        if (race.getRaceId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("race", "idexists", "A new race cannot already have an ID")).body(null);
         }
         Race result = raceRepository.save(race);
-        return ResponseEntity.created(new URI("/api/races/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("race", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/races/" + result.getRaceId()))
+            .headers(HeaderUtil.createEntityCreationAlert("race", result.getRaceId().toString()))
             .body(result);
     }
 
@@ -71,12 +71,12 @@ public class RaceResource {
     @Timed
     public ResponseEntity<Race> updateRace(@RequestBody Race race) throws URISyntaxException {
         log.debug("REST request to update Race : {}", race);
-        if (race.getId() == null) {
+        if (race.getRaceId() == null) {
             return createRace(race);
         }
         Race result = raceRepository.save(race);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("race", race.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("race", race.getRaceId().toString()))
             .body(result);
     }
 
@@ -94,7 +94,7 @@ public class RaceResource {
     public ResponseEntity<List<Race>> getAllRaces(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Races");
-        Page<Race> page = raceRepository.findAll(pageable); 
+        Page<Race> page = raceRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/races");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

@@ -30,10 +30,10 @@ import java.util.UUID;
 public class RaceDataResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceDataResource.class);
-        
+
     @Inject
     private RaceDataRepository raceDataRepository;
-    
+
     /**
      * POST  /race-data : Create a new raceData.
      *
@@ -47,12 +47,12 @@ public class RaceDataResource {
     @Timed
     public ResponseEntity<RaceData> createRaceData(@RequestBody RaceData raceData) throws URISyntaxException {
         log.debug("REST request to save RaceData : {}", raceData);
-        if (raceData.getId() != null) {
+        if (raceData.getRaceDataId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("raceData", "idexists", "A new raceData cannot already have an ID")).body(null);
         }
         RaceData result = raceDataRepository.save(raceData);
-        return ResponseEntity.created(new URI("/api/race-data/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("raceData", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/race-data/" + result.getRaceDataId()))
+            .headers(HeaderUtil.createEntityCreationAlert("raceData", result.getRaceDataId().toString()))
             .body(result);
     }
 
@@ -71,12 +71,12 @@ public class RaceDataResource {
     @Timed
     public ResponseEntity<RaceData> updateRaceData(@RequestBody RaceData raceData) throws URISyntaxException {
         log.debug("REST request to update RaceData : {}", raceData);
-        if (raceData.getId() == null) {
+        if (raceData.getRaceDataId() == null) {
             return createRaceData(raceData);
         }
         RaceData result = raceDataRepository.save(raceData);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("raceData", raceData.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("raceData", raceData.getRaceDataId().toString()))
             .body(result);
     }
 
@@ -94,7 +94,7 @@ public class RaceDataResource {
     public ResponseEntity<List<RaceData>> getAllRaceData(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of RaceData");
-        Page<RaceData> page = raceDataRepository.findAll(pageable); 
+        Page<RaceData> page = raceDataRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-data");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

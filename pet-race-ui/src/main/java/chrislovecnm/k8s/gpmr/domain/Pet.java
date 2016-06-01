@@ -16,8 +16,6 @@ public class Pet implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
-
     private UUID petId;
 
     private String name;
@@ -29,14 +27,6 @@ public class Pet implements Serializable {
     private UUID petCategoryId;
 
     private Float petSpeed;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public UUID getPetId() {
         return petId;
@@ -95,21 +85,20 @@ public class Pet implements Serializable {
             return false;
         }
         Pet pet = (Pet) o;
-        if(pet.id == null || id == null) {
+        if(pet.petId == null || petId == null) {
             return false;
         }
-        return Objects.equals(id, pet.id);
+        return Objects.equals(petId, pet.petId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(petId);
     }
 
     @Override
     public String toString() {
         return "Pet{" +
-            "id=" + id +
             ", petId='" + petId + "'" +
             ", name='" + name + "'" +
             ", description='" + description + "'" +

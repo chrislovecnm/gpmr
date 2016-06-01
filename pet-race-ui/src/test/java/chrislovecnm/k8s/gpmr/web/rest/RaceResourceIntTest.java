@@ -147,7 +147,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         restRaceMockMvc.perform(get("/api/races?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(race.getId().toString())))
                 .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryName").value(hasItem(DEFAULT_PET_CATEGORY_NAME.toString())))
@@ -166,11 +165,10 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         raceRepository.save(race);
 
         // Get the race
-        restRaceMockMvc.perform(get("/api/races/{id}", race.getId()))
+        restRaceMockMvc.perform(get("/api/races/{id}", race.getRaceId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(race.getId().toString()))
-            .andExpect(jsonPath("$.raceId").value(DEFAULT_RACE_ID.toString()))
+            .andExpect(jsonPath("$.raceId").value(race.getRaceId()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
             .andExpect(jsonPath("$.petCategoryName").value(DEFAULT_PET_CATEGORY_NAME.toString()))
             .andExpect(jsonPath("$.numOfPets").value(DEFAULT_NUM_OF_PETS))
@@ -197,8 +195,7 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
 
         // Update the race
         Race updatedRace = new Race();
-        updatedRace.setId(race.getId());
-        updatedRace.setRaceId(UPDATED_RACE_ID);
+        updatedRace.setRaceId(race.getRaceId());
         updatedRace.setPetCategoryId(UPDATED_PET_CATEGORY_ID);
         updatedRace.setPetCategoryName(UPDATED_PET_CATEGORY_NAME);
         updatedRace.setNumOfPets(UPDATED_NUM_OF_PETS);
@@ -237,7 +234,7 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = raceRepository.findAll().size();
 
         // Get the race
-        restRaceMockMvc.perform(delete("/api/races/{id}", race.getId())
+        restRaceMockMvc.perform(delete("/api/races/{id}", race.getRaceId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

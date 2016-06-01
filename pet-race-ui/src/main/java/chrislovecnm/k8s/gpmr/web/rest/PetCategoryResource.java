@@ -27,10 +27,10 @@ import java.util.UUID;
 public class PetCategoryResource {
 
     private final Logger log = LoggerFactory.getLogger(PetCategoryResource.class);
-        
+
     @Inject
     private PetCategoryService petCategoryService;
-    
+
     /**
      * POST  /pet-categories : Create a new petCategory.
      *
@@ -44,12 +44,12 @@ public class PetCategoryResource {
     @Timed
     public ResponseEntity<PetCategory> createPetCategory(@RequestBody PetCategory petCategory) throws URISyntaxException {
         log.debug("REST request to save PetCategory : {}", petCategory);
-        if (petCategory.getId() != null) {
+        if (petCategory.getPetCategoryId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("petCategory", "idexists", "A new petCategory cannot already have an ID")).body(null);
         }
         PetCategory result = petCategoryService.save(petCategory);
-        return ResponseEntity.created(new URI("/api/pet-categories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("petCategory", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/pet-categories/" + result.getPetCategoryId()))
+            .headers(HeaderUtil.createEntityCreationAlert("petCategory", result.getPetCategoryId().toString()))
             .body(result);
     }
 
@@ -68,12 +68,12 @@ public class PetCategoryResource {
     @Timed
     public ResponseEntity<PetCategory> updatePetCategory(@RequestBody PetCategory petCategory) throws URISyntaxException {
         log.debug("REST request to update PetCategory : {}", petCategory);
-        if (petCategory.getId() == null) {
+        if (petCategory.getPetCategoryId() == null) {
             return createPetCategory(petCategory);
         }
         PetCategory result = petCategoryService.save(petCategory);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("petCategory", petCategory.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("petCategory", petCategory.getPetCategoryId().toString()))
             .body(result);
     }
 

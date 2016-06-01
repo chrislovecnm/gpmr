@@ -1,10 +1,14 @@
 package chrislovecnm.k8s.gpmr.repository;
 
+import chrislovecnm.k8s.gpmr.domain.RaceData;
 import chrislovecnm.k8s.gpmr.domain.RaceNormal;
 
 import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +22,7 @@ import java.util.UUID;
  * Cassandra repository for the RaceNormal entity.
  */
 @Repository
-public class RaceNormalRepository {
+public class RaceNormalRepository extends CassandraPaging {
 
     @Inject
     private Session session;
@@ -32,28 +36,37 @@ public class RaceNormalRepository {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceNormal.class);
-        findAllStmt = session.prepare("SELECT * FROM raceNormal");
-        truncateStmt = session.prepare("TRUNCATE raceNormal");
+        createPaging(mapper);
+    }
+
+    public Page<RaceNormal> findAll(Pageable pageable) {
+        List<RaceNormal> raceNormals = new ArrayList<>();
+        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+            row -> rowCall(row)
+        ).forEach(raceNormals::add);
+        Page<RaceNormal> page = new PageImpl<>(raceNormals,pageable,raceNormals.size());
+        return page;
+    }
+
+    private RaceNormal rowCall(Row row) {
+        RaceNormal raceNormal = new RaceNormal();
+        raceNormal.setRaceNormalId(row.getUUID("raceNormalId"));
+        raceNormal.setRaceId(row.getUUID("raceId"));
+        raceNormal.setPetCategoryId(row.getUUID("petCategoryId"));
+        raceNormal.setPetCategoryName(row.getString("petCategoryName"));
+        raceNormal.setCurrentTime(row.getTimestamp("currentTime"));
+        raceNormal.setNormalLoc(row.getFloat("normalLoc"));
+        raceNormal.setNormalScale(row.getFloat("normalScale"));
+        raceNormal.setNormalSize(row.getInt("normalSize"));
+        raceNormal.setNormals(row.getList("normals", BigDecimal.class));
+        return raceNormal;
     }
 
     public List<RaceNormal> findAll() {
         List<RaceNormal> raceNormals = new ArrayList<>();
         BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
-            row -> {
-                RaceNormal raceNormal = new RaceNormal();
-                raceNormal.setId(row.getUUID("id"));
-                raceNormal.setRaceNormalId(row.getUUID("raceNormalId"));
-                raceNormal.setRaceId(row.getUUID("raceId"));
-                raceNormal.setPetCategoryId(row.getUUID("petCategoryId"));
-                raceNormal.setPetCategoryName(row.getString("petCategoryName"));
-                raceNormal.setCurrentTime(row.getDate("currentTime"));
-                raceNormal.setNormalLoc(row.getFloat("normalLoc"));
-                raceNormal.setNormalScale(row.getFloat("normalScale"));
-                raceNormal.setNormalSize(row.getInt("normalSize"));
-                raceNormal.setNormals(row.getList("normals", BigDecimal.class));
-                return raceNormal;
-            }
+            row -> rowCall(row)
         ).forEach(raceNormals::add);
         return raceNormals;
     }
@@ -63,8 +76,8 @@ public class RaceNormalRepository {
     }
 
     public RaceNormal save(RaceNormal raceNormal) {
-        if (raceNormal.getId() == null) {
-            raceNormal.setId(UUID.randomUUID());
+        if (raceNormal.getRaceNormalId() == null) {
+            raceNormal.setRaceNormalId(UUID.randomUUID());
         }
         mapper.save(raceNormal);
         return raceNormal;

@@ -129,7 +129,6 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         restPetMockMvc.perform(get("/api/pets?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(pet.getId().toString())))
                 .andExpect(jsonPath("$.[*].petId").value(hasItem(DEFAULT_PET_ID.toString())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
@@ -144,10 +143,9 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         petRepository.save(pet);
 
         // Get the pet
-        restPetMockMvc.perform(get("/api/pets/{id}", pet.getId()))
+        restPetMockMvc.perform(get("/api/pets/{id}", pet.getPetId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(pet.getId().toString()))
             .andExpect(jsonPath("$.petId").value(DEFAULT_PET_ID.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
@@ -172,8 +170,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
 
         // Update the pet
         Pet updatedPet = new Pet();
-        updatedPet.setId(pet.getId());
-        updatedPet.setPetId(UPDATED_PET_ID);
+        updatedPet.setPetId(pet.getPetId());
         updatedPet.setName(UPDATED_NAME);
         updatedPet.setDescription(UPDATED_DESCRIPTION);
         updatedPet.setPetCategoryName(UPDATED_PET_CATEGORY_NAME);
@@ -205,7 +202,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = petRepository.findAll().size();
 
         // Get the pet
-        restPetMockMvc.perform(delete("/api/pets/{id}", pet.getId())
+        restPetMockMvc.perform(delete("/api/pets/{id}", pet.getPetId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

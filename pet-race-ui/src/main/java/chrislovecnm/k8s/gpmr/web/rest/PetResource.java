@@ -27,10 +27,10 @@ import java.util.UUID;
 public class PetResource {
 
     private final Logger log = LoggerFactory.getLogger(PetResource.class);
-        
+
     @Inject
     private PetService petService;
-    
+
     /**
      * POST  /pets : Create a new pet.
      *
@@ -44,12 +44,12 @@ public class PetResource {
     @Timed
     public ResponseEntity<Pet> createPet(@RequestBody Pet pet) throws URISyntaxException {
         log.debug("REST request to save Pet : {}", pet);
-        if (pet.getId() != null) {
+        if (pet.getPetId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("pet", "idexists", "A new pet cannot already have an ID")).body(null);
         }
         Pet result = petService.save(pet);
-        return ResponseEntity.created(new URI("/api/pets/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("pet", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/pets/" + result.getPetId()))
+            .headers(HeaderUtil.createEntityCreationAlert("pet", result.getPetId().toString()))
             .body(result);
     }
 
@@ -68,12 +68,12 @@ public class PetResource {
     @Timed
     public ResponseEntity<Pet> updatePet(@RequestBody Pet pet) throws URISyntaxException {
         log.debug("REST request to update Pet : {}", pet);
-        if (pet.getId() == null) {
+        if (pet.getPetId() == null) {
             return createPet(pet);
         }
         Pet result = petService.save(pet);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("pet", pet.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("pet", pet.getPetId().toString()))
             .body(result);
     }
 

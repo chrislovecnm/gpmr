@@ -12,20 +12,21 @@ import java.util.UUID;
  * A RaceResult.
  */
 
-@Table(name = "raceResult")
+@Table(name = "race_result")
 public class RaceResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
-
     private UUID raceResultId;
 
+    @PartitionKey
     private UUID raceId;
 
+    @PartitionKey
     private UUID petCategoryId;
 
+    @PartitionKey
     private UUID raceParticipantId;
 
     private String petName;
@@ -41,14 +42,6 @@ public class RaceResult implements Serializable {
     private BigDecimal finishTime;
 
     private Date startTime;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public UUID getRaceResultId() {
         return raceResultId;
@@ -147,21 +140,20 @@ public class RaceResult implements Serializable {
             return false;
         }
         RaceResult raceResult = (RaceResult) o;
-        if(raceResult.id == null || id == null) {
+        if(raceResult.raceResultId == null || raceResultId == null) {
             return false;
         }
-        return Objects.equals(id, raceResult.id);
+        return Objects.equals(raceResultId, raceResult.raceResultId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(raceResultId);
     }
 
     @Override
     public String toString() {
         return "RaceResult{" +
-            "id=" + id +
             ", raceResultId='" + raceResultId + "'" +
             ", raceId='" + raceId + "'" +
             ", petCategoryId='" + petCategoryId + "'" +

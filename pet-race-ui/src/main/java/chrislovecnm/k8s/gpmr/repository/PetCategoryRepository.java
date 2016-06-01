@@ -17,22 +17,18 @@ import java.util.UUID;
  * Cassandra repository for the PetCategory entity.
  */
 @Repository
-public class PetCategoryRepository {
+public class PetCategoryRepository extends CassandraPaging {
 
     @Inject
     private Session session;
 
     private Mapper<PetCategory> mapper;
 
-    private PreparedStatement findAllStmt;
-
-    private PreparedStatement truncateStmt;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(PetCategory.class);
-        findAllStmt = session.prepare("SELECT * FROM petCategory");
-        truncateStmt = session.prepare("TRUNCATE petCategory");
+        createPaging(mapper);
     }
 
     public List<PetCategory> findAll() {
@@ -41,7 +37,6 @@ public class PetCategoryRepository {
         session.execute(stmt).all().stream().map(
             row -> {
                 PetCategory petCategory = new PetCategory();
-                petCategory.setId(row.getUUID("id"));
                 petCategory.setPetCategoryId(row.getUUID("petCategoryId"));
                 petCategory.setName(row.getString("name"));
                 petCategory.setSpeed(row.getFloat("speed"));
@@ -56,8 +51,8 @@ public class PetCategoryRepository {
     }
 
     public PetCategory save(PetCategory petCategory) {
-        if (petCategory.getId() == null) {
-            petCategory.setId(UUID.randomUUID());
+        if (petCategory.getPetCategoryId() == null) {
+            petCategory.setPetCategoryId(UUID.randomUUID());
         }
         mapper.save(petCategory);
         return petCategory;

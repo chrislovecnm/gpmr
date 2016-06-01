@@ -116,7 +116,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         restPetCategoryMockMvc.perform(get("/api/pet-categories?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(petCategory.getId().toString())))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(petCategory.getPetCategoryId().toString())))
                 .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].speed").value(hasItem(DEFAULT_SPEED.doubleValue())));
@@ -128,10 +128,9 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         petCategoryRepository.save(petCategory);
 
         // Get the petCategory
-        restPetCategoryMockMvc.perform(get("/api/pet-categories/{id}", petCategory.getId()))
+        restPetCategoryMockMvc.perform(get("/api/pet-categories/{id}", petCategory.getPetCategoryId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(petCategory.getId().toString()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.speed").value(DEFAULT_SPEED.doubleValue()));
@@ -153,8 +152,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
 
         // Update the petCategory
         PetCategory updatedPetCategory = new PetCategory();
-        updatedPetCategory.setId(petCategory.getId());
-        updatedPetCategory.setPetCategoryId(UPDATED_PET_CATEGORY_ID);
+        updatedPetCategory.setPetCategoryId(petCategory.getPetCategoryId());
         updatedPetCategory.setName(UPDATED_NAME);
         updatedPetCategory.setSpeed(UPDATED_SPEED);
 
@@ -180,7 +178,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = petCategoryRepository.findAll().size();
 
         // Get the petCategory
-        restPetCategoryMockMvc.perform(delete("/api/pet-categories/{id}", petCategory.getId())
+        restPetCategoryMockMvc.perform(delete("/api/pet-categories/{id}", petCategory.getPetCategoryId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

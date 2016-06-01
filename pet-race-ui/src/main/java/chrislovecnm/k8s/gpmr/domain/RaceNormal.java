@@ -20,12 +20,12 @@ public class RaceNormal implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
-
     private UUID raceNormalId;
 
+    @PartitionKey
     private UUID raceId;
 
+    @PartitionKey
     private UUID petCategoryId;
 
     private String petCategoryName;
@@ -39,14 +39,6 @@ public class RaceNormal implements Serializable {
     private Integer normalSize;
 
     private List<BigDecimal> normals;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public UUID getRaceNormalId() {
         return raceNormalId;
@@ -129,21 +121,20 @@ public class RaceNormal implements Serializable {
             return false;
         }
         RaceNormal raceNormal = (RaceNormal) o;
-        if (raceNormal.id == null || id == null) {
+        if (raceNormal.raceNormalId == null || raceNormalId == null) {
             return false;
         }
-        return Objects.equals(id, raceNormal.id);
+        return Objects.equals(raceNormalId, raceNormal.raceNormalId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(raceNormalId);
     }
 
     @Override
     public String toString() {
         return "RaceNormal{" +
-            "id=" + id +
             ", raceNormalId='" + raceNormalId + "'" +
             ", raceId='" + raceId + "'" +
             ", petCategoryId='" + petCategoryId + "'" +

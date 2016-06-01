@@ -157,7 +157,6 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         restRaceDataMockMvc.perform(get("/api/race-data?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(raceData.getId().toString())))
                 .andExpect(jsonPath("$.[*].raceDataId").value(hasItem(DEFAULT_RACE_DATA_ID.toString())))
                 .andExpect(jsonPath("$.[*].petId").value(hasItem(DEFAULT_PET_ID.toString())))
                 .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID.toString())))
@@ -178,10 +177,9 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         raceDataRepository.save(raceData);
 
         // Get the raceData
-        restRaceDataMockMvc.perform(get("/api/race-data/{id}", raceData.getId()))
+        restRaceDataMockMvc.perform(get("/api/race-data/{id}", raceData.getPetId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(raceData.getId().toString()))
             .andExpect(jsonPath("$.raceDataId").value(DEFAULT_RACE_DATA_ID.toString()))
             .andExpect(jsonPath("$.petId").value(DEFAULT_PET_ID.toString()))
             .andExpect(jsonPath("$.raceId").value(DEFAULT_RACE_ID.toString()))
@@ -211,8 +209,7 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
 
         // Update the raceData
         RaceData updatedRaceData = new RaceData();
-        updatedRaceData.setId(raceData.getId());
-        updatedRaceData.setRaceDataId(UPDATED_RACE_DATA_ID);
+        updatedRaceData.setRaceDataId(raceData.getRaceDataId());
         updatedRaceData.setPetId(UPDATED_PET_ID);
         updatedRaceData.setRaceId(UPDATED_RACE_ID);
         updatedRaceData.setPetName(UPDATED_PET_NAME);
@@ -255,7 +252,7 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = raceDataRepository.findAll().size();
 
         // Get the raceData
-        restRaceDataMockMvc.perform(delete("/api/race-data/{id}", raceData.getId())
+        restRaceDataMockMvc.perform(delete("/api/race-data/{id}", raceData.getRaceDataId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

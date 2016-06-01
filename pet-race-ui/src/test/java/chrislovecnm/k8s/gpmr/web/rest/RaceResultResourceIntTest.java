@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -68,8 +69,8 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
     private static final Integer DEFAULT_FINISH_POSITION = 1;
     private static final Integer UPDATED_FINISH_POSITION = 2;
 
-    private static final Double DEFAULT_FINISH_TIME = 1D;
-    private static final Double UPDATED_FINISH_TIME = 2D;
+    private static final BigDecimal DEFAULT_FINISH_TIME = BigDecimal.valueOf(1D);
+    private static final BigDecimal UPDATED_FINISH_TIME = BigDecimal.valueOf(2D);
 
     private static final Date DEFAULT_START_TIME = new Date();
     private static final Date UPDATED_START_TIME = new Date();
@@ -151,8 +152,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         restRaceResultMockMvc.perform(get("/api/race-results?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(raceResult.getId().toString())))
-                .andExpect(jsonPath("$.[*].raceResultId").value(hasItem(DEFAULT_RACE_RESULT_ID.toString())))
+                .andExpect(jsonPath("$.[*].raceResultId").value(hasItem(raceResult.getRaceResultId().toString())))
                 .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
                 .andExpect(jsonPath("$.[*].raceParticipantId").value(hasItem(DEFAULT_RACE_PARTICIPANT_ID.toString())))
@@ -171,11 +171,10 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         raceResultRepository.save(raceResult);
 
         // Get the raceResult
-        restRaceResultMockMvc.perform(get("/api/race-results/{id}", raceResult.getId()))
+        restRaceResultMockMvc.perform(get("/api/race-results/{id}", raceResult.getRaceResultId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(raceResult.getId().toString()))
-            .andExpect(jsonPath("$.raceResultId").value(DEFAULT_RACE_RESULT_ID.toString()))
+            .andExpect(jsonPath("$.raceResultId").value(raceResult.getRaceResultId().toString()))
             .andExpect(jsonPath("$.raceId").value(DEFAULT_RACE_ID.toString()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
             .andExpect(jsonPath("$.raceParticipantId").value(DEFAULT_RACE_PARTICIPANT_ID.toString()))
@@ -203,8 +202,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
 
         // Update the raceResult
         RaceResult updatedRaceResult = new RaceResult();
-        updatedRaceResult.setId(raceResult.getId());
-        updatedRaceResult.setRaceResultId(UPDATED_RACE_RESULT_ID);
+        updatedRaceResult.setRaceResultId(raceResult.getRaceResultId());
         updatedRaceResult.setRaceId(UPDATED_RACE_ID);
         updatedRaceResult.setPetCategoryId(UPDATED_PET_CATEGORY_ID);
         updatedRaceResult.setRaceParticipantId(UPDATED_RACE_PARTICIPANT_ID);
@@ -245,7 +243,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = raceResultRepository.findAll().size();
 
         // Get the raceResult
-        restRaceResultMockMvc.perform(delete("/api/race-results/{id}", raceResult.getId())
+        restRaceResultMockMvc.perform(delete("/api/race-results/{id}", raceResult.getRaceResultId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

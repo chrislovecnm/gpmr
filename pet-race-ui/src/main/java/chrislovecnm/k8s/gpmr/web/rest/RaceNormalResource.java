@@ -30,10 +30,10 @@ import java.util.UUID;
 public class RaceNormalResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceNormalResource.class);
-        
+
     @Inject
     private RaceNormalRepository raceNormalRepository;
-    
+
     /**
      * POST  /race-normals : Create a new raceNormal.
      *
@@ -47,12 +47,12 @@ public class RaceNormalResource {
     @Timed
     public ResponseEntity<RaceNormal> createRaceNormal(@RequestBody RaceNormal raceNormal) throws URISyntaxException {
         log.debug("REST request to save RaceNormal : {}", raceNormal);
-        if (raceNormal.getId() != null) {
+        if (raceNormal.getRaceId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("raceNormal", "idexists", "A new raceNormal cannot already have an ID")).body(null);
         }
         RaceNormal result = raceNormalRepository.save(raceNormal);
-        return ResponseEntity.created(new URI("/api/race-normals/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("raceNormal", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/race-normals/" + result.getRaceId()))
+            .headers(HeaderUtil.createEntityCreationAlert("raceNormal", result.getRaceId().toString()))
             .body(result);
     }
 
@@ -71,12 +71,12 @@ public class RaceNormalResource {
     @Timed
     public ResponseEntity<RaceNormal> updateRaceNormal(@RequestBody RaceNormal raceNormal) throws URISyntaxException {
         log.debug("REST request to update RaceNormal : {}", raceNormal);
-        if (raceNormal.getId() == null) {
+        if (raceNormal.getRaceId() == null) {
             return createRaceNormal(raceNormal);
         }
         RaceNormal result = raceNormalRepository.save(raceNormal);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("raceNormal", raceNormal.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("raceNormal", raceNormal.getRaceId().toString()))
             .body(result);
     }
 
@@ -94,7 +94,7 @@ public class RaceNormalResource {
     public ResponseEntity<List<RaceNormal>> getAllRaceNormals(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of RaceNormals");
-        Page<RaceNormal> page = raceNormalRepository.findAll(pageable); 
+        Page<RaceNormal> page = raceNormalRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-normals");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

@@ -17,10 +17,9 @@ public class RaceData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
-
     private UUID raceDataId;
 
+    @PartitionKey
     private UUID petId;
 
     private UUID raceId;
@@ -42,14 +41,6 @@ public class RaceData implements Serializable {
     private Boolean finished;
 
     private Double runnerPreviousDistance;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public UUID getRaceDataId() {
         return raceDataId;
@@ -156,22 +147,21 @@ public class RaceData implements Serializable {
             return false;
         }
         RaceData raceData = (RaceData) o;
-        if(raceData.id == null || id == null) {
+        if(raceData.raceDataId == null || raceDataId == null) {
             return false;
         }
-        return Objects.equals(id, raceData.id);
+        return Objects.equals(raceDataId, raceData.raceDataId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(raceDataId);
     }
 
     @Override
     public String toString() {
         return "RaceData{" +
-            "id=" + id +
-            ", raceDataId='" + raceDataId + "'" +
+            "raceDataId='" + raceDataId + "'" +
             ", petId='" + petId + "'" +
             ", raceId='" + raceId + "'" +
             ", petName='" + petName + "'" +

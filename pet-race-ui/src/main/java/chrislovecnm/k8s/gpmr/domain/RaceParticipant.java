@@ -18,10 +18,9 @@ public class RaceParticipant implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
-
     private UUID raceParticipantId;
 
+    @PartitionKey
     private UUID petId;
 
     private UUID raceId;
@@ -41,14 +40,6 @@ public class RaceParticipant implements Serializable {
     private Integer finishPosition;
 
     private Boolean finished;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public UUID getRaceParticipantId() {
         return raceParticipantId;
@@ -147,21 +138,20 @@ public class RaceParticipant implements Serializable {
             return false;
         }
         RaceParticipant raceParticipant = (RaceParticipant) o;
-        if(raceParticipant.id == null || id == null) {
+        if(raceParticipant.raceParticipantId == null || raceParticipantId == null) {
             return false;
         }
-        return Objects.equals(id, raceParticipant.id);
+        return Objects.equals(raceParticipantId, raceParticipant.raceParticipantId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(raceParticipantId);
     }
 
     @Override
     public String toString() {
         return "RaceParticipant{" +
-            "id=" + id +
             ", raceParticipantId='" + raceParticipantId + "'" +
             ", petId='" + petId + "'" +
             ", raceId='" + raceId + "'" +
