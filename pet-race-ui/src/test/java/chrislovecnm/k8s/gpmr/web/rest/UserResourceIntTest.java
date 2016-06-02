@@ -57,7 +57,7 @@ public class UserResourceIntTest extends AbstractCassandraTest {
         User user = new User();
         user.setEmail("chris.love@apollobit.com");
         user.setLastName("Administrator");
-        user.setId("admin");
+        user.setLogin("admin");
         ManagedUserDTO managedUserDTO = new ManagedUserDTO(user);
         User newUser = userService.createUser(managedUserDTO);
 

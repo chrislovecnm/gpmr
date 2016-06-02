@@ -82,6 +82,9 @@ public class User implements Serializable {
 
     //Lowercase the login before saving it in database
     public void setLogin(String login) {
+        if(login == null) {
+            throw new IllegalArgumentException("Login must be set");
+        }
         this.login = login.toLowerCase(Locale.ENGLISH);
     }
 
