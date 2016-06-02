@@ -24,19 +24,12 @@ import java.util.UUID;
 @Repository
 public class RaceNormalRepository extends CassandraPaging {
 
-    @Inject
-    private Session session;
-
     private Mapper<RaceNormal> mapper;
-
-    private PreparedStatement findAllStmt;
-
-    private PreparedStatement truncateStmt;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceNormal.class);
-        createPaging(mapper);
+        createPaging(mapper,"gpmr","race_normal");
     }
 
     public Page<RaceNormal> findAll(Pageable pageable) {

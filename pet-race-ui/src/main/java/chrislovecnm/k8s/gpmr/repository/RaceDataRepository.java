@@ -27,11 +27,10 @@ public class RaceDataRepository extends CassandraPaging {
     private Mapper<RaceData> mapper;
 
 
-
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceData.class);
-        createPaging(mapper);
+        createPaging(mapper,"gpmr","race_data");
     }
 
    public Page<RaceData> findAll(Pageable pageable) {

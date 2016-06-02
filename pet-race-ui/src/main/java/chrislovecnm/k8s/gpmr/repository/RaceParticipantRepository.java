@@ -27,7 +27,7 @@ public class RaceParticipantRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceParticipant.class);
-        createPaging(mapper);
+        createPaging(mapper,"gpmr","race_participant");
     }
 
 
@@ -37,7 +37,7 @@ public class RaceParticipantRepository extends CassandraPaging {
         raceParticipant.setPetId(row.getUUID("petId"));
         raceParticipant.setRaceId(row.getUUID("raceId"));
         raceParticipant.setPetName(row.getString("petName"));
-        raceParticipant.setPetColor(row.getUUID("petColor"));
+        raceParticipant.setPetColor(row.getString("petColor"));
         raceParticipant.setPetCategoryName(row.getString("petCategoryName"));
         raceParticipant.setPetCategoryId(row.getUUID("petCategoryId"));
         raceParticipant.setStartTime(row.getTimestamp("startTime"));

@@ -23,15 +23,12 @@ import java.util.UUID;
 @Repository
 public class RaceResultRepository extends  CassandraPaging {
 
-    @Inject
-    private Session session;
-
     private Mapper<RaceResult> mapper;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceResult.class);
-        createPaging(mapper);
+        createPaging(mapper, "gpmr","race_result");
     }
 
     public Page<RaceResult> findAll(Pageable pageable) {
@@ -52,7 +49,7 @@ public class RaceResultRepository extends  CassandraPaging {
         raceResult.setRaceParticipantId(row.getUUID("raceParticipantId"));
         raceResult.setPetName(row.getString("petName"));
         raceResult.setPetType(row.getString("petType"));
-        raceResult.setPetColor(row.getUUID("petColor"));
+        raceResult.setPetColor(row.getString("petColor"));
         raceResult.setPetCategoryName(row.getString("petCategoryName"));
         raceResult.setFinishPosition(row.getInt("finishPosition"));
         raceResult.setFinishTime(row.getDecimal("finishTime"));

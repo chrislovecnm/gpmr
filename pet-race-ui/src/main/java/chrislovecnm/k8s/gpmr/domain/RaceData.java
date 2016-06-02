@@ -19,27 +19,37 @@ public class RaceData implements Serializable {
     @PartitionKey
     private UUID raceDataId;
 
-    @PartitionKey
+    @Column(caseSensitive = true)
     private UUID petId;
 
+    @Column(caseSensitive = true)
     private UUID raceId;
 
+    @Column(caseSensitive = true)
     private String petName;
 
+    @Column(caseSensitive = true)
     private String petCategoryName;
 
+    @Column(caseSensitive = true)
     private UUID petCategoryId;
 
+    @Column(caseSensitive = true)
     private Integer interval;
 
+    @Column(caseSensitive = true)
     private Integer runnerPosition;
 
+    @Column(caseSensitive = true)
     private Double runnerDistance;
 
+    @Column(caseSensitive = true)
     private Date startTime;
 
+    @Column(caseSensitive = true)
     private Boolean finished;
 
+    @Column(caseSensitive = true)
     private Double runnerPreviousDistance;
 
     public UUID getRaceDataId() {

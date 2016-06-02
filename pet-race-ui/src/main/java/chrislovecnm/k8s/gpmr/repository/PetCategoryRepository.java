@@ -19,16 +19,13 @@ import java.util.UUID;
 @Repository
 public class PetCategoryRepository extends CassandraPaging {
 
-    @Inject
-    private Session session;
-
     private Mapper<PetCategory> mapper;
 
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(PetCategory.class);
-        createPaging(mapper);
+        createPaging(mapper,"gpmr","pet_category");
     }
 
     public List<PetCategory> findAll() {

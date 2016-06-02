@@ -2,7 +2,6 @@ package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.Race;
 
-import chrislovecnm.k8s.gpmr.domain.RaceParticipant;
 import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,15 +21,12 @@ import java.util.UUID;
 @Repository
 public class RaceRepository extends CassandraPaging {
 
-    @Inject
-    private Session session;
-
     private Mapper<Race> mapper;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(Race.class);
-        createPaging(mapper);
+        createPaging(mapper,"gpmr","race");
     }
 
     public Page<Race> findAll(Pageable pageable) {
@@ -56,7 +51,7 @@ public class RaceRepository extends CassandraPaging {
         race.setStartTime(row.getTimestamp("startTime"));
         race.setEndTime(row.getTimestamp("endTime"));
         race.setBaseSpeed(row.getFloat("baseSpeed"));
-        race.setRacerIds(row.getList("racerIds", UUID.class));
+        race.setRacersIds(row.getList("racerIds", UUID.class));
         return race;
     }
 

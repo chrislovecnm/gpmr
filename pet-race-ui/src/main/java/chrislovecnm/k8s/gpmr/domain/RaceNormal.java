@@ -1,5 +1,7 @@
 package chrislovecnm.k8s.gpmr.domain;
 
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.Frozen;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
@@ -20,24 +22,31 @@ public class RaceNormal implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(caseSensitive = true, name = "raceNormalId")
     private UUID raceNormalId;
 
-    @PartitionKey
+    @Column(caseSensitive = true, name = "raceId")
     private UUID raceId;
 
-    @PartitionKey
+    @Column(caseSensitive = true, name = "petCategoryId")
     private UUID petCategoryId;
 
+    @Column(caseSensitive = true, name = "petCategoryName")
     private String petCategoryName;
 
+    @Column(caseSensitive = true, name = "currentTime")
     private Date currentTime;
 
+    @Column(caseSensitive = true, name = "normalLoc")
     private Float normalLoc;
 
+    @Column(caseSensitive = true, name = "normalScale")
     private Float normalScale;
 
+    @Column(caseSensitive = true, name = "normalSize")
     private Integer normalSize;
 
+    @Frozen("list<decimal>")
     private List<BigDecimal> normals;
 
     public UUID getRaceNormalId() {

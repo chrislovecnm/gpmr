@@ -12,35 +12,43 @@ import java.util.UUID;
  * A RaceResult.
  */
 
-@Table(name = "race_result")
+@Table(name = "race_result", caseSensitiveTable = true)
 public class RaceResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(caseSensitive = true, name = "raceResultId")
     private UUID raceResultId;
 
-    @PartitionKey
+    @Column(caseSensitive = true, name = "raceId")
     private UUID raceId;
 
-    @PartitionKey
+    @Column(caseSensitive = true, name = "petCategoryId")
     private UUID petCategoryId;
 
-    @PartitionKey
+    @Column(caseSensitive = true, name = "raceParticipantId")
     private UUID raceParticipantId;
 
+    @Column(caseSensitive = true, name = "petName")
     private String petName;
 
+    @Column(caseSensitive = true, name = "petType")
     private String petType;
 
-    private UUID petColor;
+    @Column(caseSensitive = true, name = "petColor")
+    private String petColor;
 
+    @Column(caseSensitive = true, name = "petCategoryName")
     private String petCategoryName;
 
+    @Column(caseSensitive = true, name = "finishPosition")
     private Integer finishPosition;
 
+    @Column(caseSensitive = true, name = "finishTime")
     private BigDecimal finishTime;
 
+    @Column(caseSensitive = true, name = "startTime")
     private Date startTime;
 
     public UUID getRaceResultId() {
@@ -91,11 +99,11 @@ public class RaceResult implements Serializable {
         this.petType = petType;
     }
 
-    public UUID getPetColor() {
+    public String getPetColor() {
         return petColor;
     }
 
-    public void setPetColor(UUID petColor) {
+    public void setPetColor(String petColor) {
         this.petColor = petColor;
     }
 

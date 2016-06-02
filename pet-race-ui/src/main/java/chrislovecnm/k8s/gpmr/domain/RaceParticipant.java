@@ -18,25 +18,34 @@ public class RaceParticipant implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(caseSensitive = true, name = "raceParticipantId")
     private UUID raceParticipantId;
 
-    @PartitionKey
+    @Column(caseSensitive = true, name="petId")
     private UUID petId;
 
+    @Column(caseSensitive = true, name="raceId")
     private UUID raceId;
 
+    @Column(caseSensitive = true, name="petName")
     private String petName;
 
-    private UUID petColor;
+    @Column(caseSensitive = true, name = "petColor")
+    private String petColor;
 
+    @Column(caseSensitive = true, name="petCategoryName")
     private String petCategoryName;
 
+    @Column(caseSensitive = true, name="petCategoryId")
     private UUID petCategoryId;
 
+    @Column(caseSensitive = true, name="startTime")
     private Date startTime;
 
+    @Column(caseSensitive = true, name="finishTime")
     private BigDecimal finishTime;
 
+    @Column(caseSensitive = true, name="finishPosition")
     private Integer finishPosition;
 
     private Boolean finished;
@@ -73,11 +82,11 @@ public class RaceParticipant implements Serializable {
         this.petName = petName;
     }
 
-    public UUID getPetColor() {
+    public String getPetColor() {
         return petColor;
     }
 
-    public void setPetColor(UUID petColor) {
+    public void setPetColor(String petColor) {
         this.petColor = petColor;
     }
 

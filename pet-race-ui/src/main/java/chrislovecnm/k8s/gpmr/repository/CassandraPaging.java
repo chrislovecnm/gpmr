@@ -41,9 +41,9 @@ public class CassandraPaging {
 
     }
 
-    protected void createPaging(Mapper mapper) {
-        keySpace = mapper.getTableMetadata().getKeyspace().getName();
-        tableName = mapper.getTableMetadata().getName();
+    protected void createPaging(Mapper mapper, String keySpace, String tableName) {
+        this.tableName = tableName;
+        this.keySpace = keySpace;
         findAllStmtPaging = QueryBuilder.select().from(keySpace, tableName);
         findAllStmt = session.prepare("SELECT * FROM " + tableName);
         truncateStmt = session.prepare("TRUNCATE " + tableName);

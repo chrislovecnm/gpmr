@@ -18,27 +18,36 @@ public class Race implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(caseSensitive = true, name="raceId")
     private UUID raceId;
 
+    @Column(caseSensitive = true, name="petCategoryId")
     private UUID petCategoryId;
 
+    @Column(caseSensitive = true, name="petCategoryName")
     private String petCategoryName;
 
+    @Column(caseSensitive = true, name="numOfPets")
     private Integer numOfPets;
 
     private Integer length;
 
     private String description;
 
+    @Column(caseSensitive = true)
     private UUID winnerId;
 
+    @Column(caseSensitive = true)
     private Date startTime;
 
+    @Column(caseSensitive = true)
     private Date endTime;
 
+    @Column(caseSensitive = true)
     private Float baseSpeed;
 
-    @Frozen
+    @Frozen("list<uuid>")
+    @Column(caseSensitive = true)
     private List<UUID> racersIds;
 
     public UUID getRaceId() {
@@ -124,7 +133,7 @@ public class Race implements Serializable {
     public List<UUID> getRacersIds() {
         return racersIds;
     }
-    public void setRacerIds(List<UUID> racersIds) {
+    public void setRacersIds(List<UUID> racersIds) {
         this.racersIds = racersIds;
     }
 

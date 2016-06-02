@@ -1,13 +1,12 @@
 
-CREATE TABLE IF NOT EXISTS raceNormal (
-    id uuid,
-    raceNormalId uuid,
-    raceId uuid,
-    petCategoryId uuid,
-    petCategoryName text,
-    currentTime timestamp,
-    normalLoc float,
-    normalScale float,
-    normalSize int,
-    PRIMARY KEY(id)
+CREATE TABLE race_normal (
+    "raceNormalId" uuid PRIMARY KEY,
+    "raceId" uuid,
+    "petCategoryId" uuid,
+    "currentTime" timestamp,
+    "normalLoc" float,
+    "normalScale" float,
+    "normalSize" int,
+    normals list<decimal>,
+    "petCategoryName" text
 );

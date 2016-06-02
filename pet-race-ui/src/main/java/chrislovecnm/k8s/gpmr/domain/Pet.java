@@ -16,16 +16,20 @@ public class Pet implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(caseSensitive = true,name = "petId")
     private UUID petId;
 
     private String name;
 
     private String description;
 
+    @Column(caseSensitive = true, name="petCategoryName")
     private String petCategoryName;
 
+    @Column(caseSensitive = true, name = "petCategoryId")
     private UUID petCategoryId;
 
+    @Column(caseSensitive = true, name="petSpeed")
     private Float petSpeed;
 
     public UUID getPetId() {

@@ -61,8 +61,8 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
     private static final String DEFAULT_PET_TYPE = "AAAAA";
     private static final String UPDATED_PET_TYPE = "BBBBB";
 
-    private static final UUID DEFAULT_PET_COLOR = UUID.randomUUID();
-    private static final UUID UPDATED_PET_COLOR = UUID.randomUUID();
+    private static final String DEFAULT_PET_COLOR = "RED";
+    private static final String UPDATED_PET_COLOR = "BLUE";
     private static final String DEFAULT_PET_CATEGORY_NAME = "AAAAA";
     private static final String UPDATED_PET_CATEGORY_NAME = "BBBBB";
 
