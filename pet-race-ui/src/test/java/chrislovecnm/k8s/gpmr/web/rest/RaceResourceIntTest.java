@@ -66,9 +66,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
     private static final Date DEFAULT_START_TIME = new Date();
     private static final Date UPDATED_START_TIME = new Date();
 
-    private static final Date DEFAULT_END_TIME = new Date();
-    private static final Date UPDATED_END_TIME = new Date();
-
     private static final Float DEFAULT_BASE_SPEED = 1F;
     private static final Float UPDATED_BASE_SPEED = 2F;
 
@@ -107,7 +104,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         race.setDescription(DEFAULT_DESCRIPTION);
         race.setWinnerId(DEFAULT_WINNER_ID);
         race.setStartTime(DEFAULT_START_TIME);
-        race.setEndTime(DEFAULT_END_TIME);
         race.setBaseSpeed(DEFAULT_BASE_SPEED);
     }
 
@@ -117,6 +113,7 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
 
         // Create the Race
 
+        race.setRaceId(null);
         restRaceMockMvc.perform(post("/api/races")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(race)))
@@ -126,7 +123,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         List<Race> races = raceRepository.findAll();
         assertThat(races).hasSize(databaseSizeBeforeCreate + 1);
         Race testRace = races.get(races.size() - 1);
-        assertThat(testRace.getRaceId()).isEqualTo(DEFAULT_RACE_ID);
         assertThat(testRace.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
         assertThat(testRace.getPetCategoryName()).isEqualTo(DEFAULT_PET_CATEGORY_NAME);
         assertThat(testRace.getNumOfPets()).isEqualTo(DEFAULT_NUM_OF_PETS);
@@ -134,8 +130,8 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         assertThat(testRace.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testRace.getWinnerId()).isEqualTo(DEFAULT_WINNER_ID);
         assertThat(testRace.getStartTime()).isEqualTo(DEFAULT_START_TIME);
-        assertThat(testRace.getEndTime()).isEqualTo(DEFAULT_END_TIME);
         assertThat(testRace.getBaseSpeed()).isEqualTo(DEFAULT_BASE_SPEED);
+        race.setRaceId(DEFAULT_RACE_ID);
     }
 
     @Test
@@ -155,7 +151,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
                 .andExpect(jsonPath("$.[*].winnerId").value(hasItem(DEFAULT_WINNER_ID.toString())))
                 .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.getTime())))
-                .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.getTime())))
                 .andExpect(jsonPath("$.[*].baseSpeed").value(hasItem(DEFAULT_BASE_SPEED.doubleValue())));
     }
 
@@ -168,7 +163,7 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         restRaceMockMvc.perform(get("/api/races/{id}", race.getRaceId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.raceId").value(race.getRaceId()))
+            .andExpect(jsonPath("$.raceId").value(race.getRaceId().toString()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
             .andExpect(jsonPath("$.petCategoryName").value(DEFAULT_PET_CATEGORY_NAME.toString()))
             .andExpect(jsonPath("$.numOfPets").value(DEFAULT_NUM_OF_PETS))
@@ -176,7 +171,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.winnerId").value(DEFAULT_WINNER_ID.toString()))
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.getTime()))
-            .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.getTime()))
             .andExpect(jsonPath("$.baseSpeed").value(DEFAULT_BASE_SPEED.doubleValue()));
     }
 
@@ -203,7 +197,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         updatedRace.setDescription(UPDATED_DESCRIPTION);
         updatedRace.setWinnerId(UPDATED_WINNER_ID);
         updatedRace.setStartTime(UPDATED_START_TIME);
-        updatedRace.setEndTime(UPDATED_END_TIME);
         updatedRace.setBaseSpeed(UPDATED_BASE_SPEED);
 
         restRaceMockMvc.perform(put("/api/races")
@@ -215,7 +208,7 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         List<Race> races = raceRepository.findAll();
         assertThat(races).hasSize(databaseSizeBeforeUpdate);
         Race testRace = races.get(races.size() - 1);
-        assertThat(testRace.getRaceId()).isEqualTo(UPDATED_RACE_ID);
+        assertThat(testRace.getRaceId()).isEqualTo(race.getRaceId());
         assertThat(testRace.getPetCategoryId()).isEqualTo(UPDATED_PET_CATEGORY_ID);
         assertThat(testRace.getPetCategoryName()).isEqualTo(UPDATED_PET_CATEGORY_NAME);
         assertThat(testRace.getNumOfPets()).isEqualTo(UPDATED_NUM_OF_PETS);
@@ -223,7 +216,6 @@ public class RaceResourceIntTest extends AbstractCassandraTest {
         assertThat(testRace.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testRace.getWinnerId()).isEqualTo(UPDATED_WINNER_ID);
         assertThat(testRace.getStartTime()).isEqualTo(UPDATED_START_TIME);
-        assertThat(testRace.getEndTime()).isEqualTo(UPDATED_END_TIME);
         assertThat(testRace.getBaseSpeed()).isEqualTo(UPDATED_BASE_SPEED);
     }
 

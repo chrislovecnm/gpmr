@@ -40,9 +40,6 @@ public class Race implements Serializable {
     @Column(caseSensitive = true, name = "startTime")
     private Date startTime;
 
-    @Column(caseSensitive = true, name="endTime")
-    private Date endTime;
-
     @Column(caseSensitive = true, name = "baseSpeed")
     private Float baseSpeed;
 
@@ -114,14 +111,6 @@ public class Race implements Serializable {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
     public Float getBaseSpeed() {
         return baseSpeed;
     }
@@ -168,7 +157,6 @@ public class Race implements Serializable {
             ", description='" + description + "'" +
             ", winnerId='" + winnerId + "'" +
             ", startTime='" + startTime + "'" +
-            ", endTime='" + endTime + "'" +
             ", baseSpeed='" + baseSpeed + "'" +
             '}';
     }

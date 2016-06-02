@@ -45,7 +45,6 @@ public class PetResourceIntTest extends AbstractCassandraTest {
 
 
     private static final UUID DEFAULT_PET_ID = UUID.randomUUID();
-    private static final UUID UPDATED_PET_ID = UUID.randomUUID();
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
     private static final String DEFAULT_DESCRIPTION = "AAAAA";
@@ -102,6 +101,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeCreate = petRepository.findAll().size();
 
         // Create the Pet
+        pet.setPetId(null);
 
         restPetMockMvc.perform(post("/api/pets")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -112,12 +112,12 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         List<Pet> pets = petRepository.findAll();
         assertThat(pets).hasSize(databaseSizeBeforeCreate + 1);
         Pet testPet = pets.get(pets.size() - 1);
-        assertThat(testPet.getPetId()).isEqualTo(pet.getPetId());
         assertThat(testPet.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPet.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testPet.getPetCategoryName()).isEqualTo(DEFAULT_PET_CATEGORY_NAME);
         assertThat(testPet.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
         assertThat(testPet.getPetSpeed()).isEqualTo(DEFAULT_PET_SPEED);
+        pet.setPetId(DEFAULT_PET_ID);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         restPetMockMvc.perform(get("/api/pets?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].petId").value(hasItem(DEFAULT_PET_ID.toString())))
+                .andExpect(jsonPath("$.[*].petId").value(hasItem(pet.getPetId().toString())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryName").value(hasItem(DEFAULT_PET_CATEGORY_NAME.toString())))
@@ -146,7 +146,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         restPetMockMvc.perform(get("/api/pets/{id}", pet.getPetId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.petId").value(DEFAULT_PET_ID.toString()))
+            .andExpect(jsonPath("$.petId").value(pet.getPetId().toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.petCategoryName").value(DEFAULT_PET_CATEGORY_NAME.toString()))

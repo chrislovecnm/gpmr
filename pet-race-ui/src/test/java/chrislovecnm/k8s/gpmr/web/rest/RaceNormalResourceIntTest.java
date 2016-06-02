@@ -110,6 +110,7 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
 
         // Create the RaceNormal
 
+        raceNormal.setRaceNormalId(null);
         restRaceNormalMockMvc.perform(post("/api/race-normals")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(raceNormal)))
@@ -119,7 +120,6 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         List<RaceNormal> raceNormals = raceNormalRepository.findAll();
         assertThat(raceNormals).hasSize(databaseSizeBeforeCreate + 1);
         RaceNormal testRaceNormal = raceNormals.get(raceNormals.size() - 1);
-        assertThat(testRaceNormal.getRaceNormalId()).isEqualTo(DEFAULT_RACE_NORMAL_ID);
         assertThat(testRaceNormal.getRaceId()).isEqualTo(DEFAULT_RACE_ID);
         assertThat(testRaceNormal.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
         assertThat(testRaceNormal.getPetCategoryName()).isEqualTo(DEFAULT_PET_CATEGORY_NAME);
@@ -127,6 +127,7 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         assertThat(testRaceNormal.getNormalLoc()).isEqualTo(DEFAULT_NORMAL_LOC);
         assertThat(testRaceNormal.getNormalScale()).isEqualTo(DEFAULT_NORMAL_SCALE);
         assertThat(testRaceNormal.getNormalSize()).isEqualTo(DEFAULT_NORMAL_SIZE);
+        raceNormal.setRaceNormalId(DEFAULT_RACE_NORMAL_ID);
     }
 
     @Test
@@ -154,7 +155,7 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         raceNormalRepository.save(raceNormal);
 
         // Get the raceNormal
-        restRaceNormalMockMvc.perform(get("/api/race-normals/{id}", raceNormal.getRaceId()))
+        restRaceNormalMockMvc.perform(get("/api/race-normals/{id}", raceNormal.getRaceNormalId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.raceNormalId").value(raceNormal.getRaceNormalId().toString()))
@@ -200,7 +201,7 @@ public class RaceNormalResourceIntTest extends AbstractCassandraTest {
         List<RaceNormal> raceNormals = raceNormalRepository.findAll();
         assertThat(raceNormals).hasSize(databaseSizeBeforeUpdate);
         RaceNormal testRaceNormal = raceNormals.get(raceNormals.size() - 1);
-        assertThat(testRaceNormal.getRaceNormalId()).isEqualTo(UPDATED_RACE_NORMAL_ID);
+        assertThat(testRaceNormal.getRaceNormalId()).isEqualTo(raceNormal.getRaceNormalId());
         assertThat(testRaceNormal.getRaceId()).isEqualTo(UPDATED_RACE_ID);
         assertThat(testRaceNormal.getPetCategoryId()).isEqualTo(UPDATED_PET_CATEGORY_ID);
         assertThat(testRaceNormal.getPetCategoryName()).isEqualTo(UPDATED_PET_CATEGORY_NAME);

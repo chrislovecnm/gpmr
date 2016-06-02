@@ -121,6 +121,7 @@ public class RaceParticipantResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeCreate = raceParticipantRepository.findAll().size();
 
         // Create the RaceParticipant
+        raceParticipant.setRaceParticipantId(null);
 
         restRaceParticipantMockMvc.perform(post("/api/race-participants")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -131,7 +132,6 @@ public class RaceParticipantResourceIntTest extends AbstractCassandraTest {
         List<RaceParticipant> raceParticipants = raceParticipantRepository.findAll();
         assertThat(raceParticipants).hasSize(databaseSizeBeforeCreate + 1);
         RaceParticipant testRaceParticipant = raceParticipants.get(raceParticipants.size() - 1);
-        assertThat(testRaceParticipant.getRaceParticipantId()).isEqualTo(DEFAULT_RACE_PARTICIPANT_ID);
         assertThat(testRaceParticipant.getPetId()).isEqualTo(DEFAULT_PET_ID);
         assertThat(testRaceParticipant.getRaceId()).isEqualTo(DEFAULT_RACE_ID);
         assertThat(testRaceParticipant.getPetName()).isEqualTo(DEFAULT_PET_NAME);
@@ -142,6 +142,7 @@ public class RaceParticipantResourceIntTest extends AbstractCassandraTest {
         assertThat(testRaceParticipant.getFinishTime()).isEqualTo(DEFAULT_FINISH_TIME);
         assertThat(testRaceParticipant.getFinishPosition()).isEqualTo(DEFAULT_FINISH_POSITION);
         assertThat(testRaceParticipant.isFinished()).isEqualTo(DEFAULT_FINISHED);
+        raceParticipant.setRaceParticipantId(DEFAULT_RACE_PARTICIPANT_ID);
     }
 
     @Test
@@ -203,7 +204,7 @@ public class RaceParticipantResourceIntTest extends AbstractCassandraTest {
 
         // Update the raceParticipant
         RaceParticipant updatedRaceParticipant = new RaceParticipant();
-        updatedRaceParticipant.setRaceParticipantId(UPDATED_RACE_PARTICIPANT_ID);
+        updatedRaceParticipant.setRaceParticipantId(raceParticipant.getRaceParticipantId());
         updatedRaceParticipant.setPetId(UPDATED_PET_ID);
         updatedRaceParticipant.setRaceId(UPDATED_RACE_ID);
         updatedRaceParticipant.setPetName(UPDATED_PET_NAME);
@@ -224,7 +225,7 @@ public class RaceParticipantResourceIntTest extends AbstractCassandraTest {
         List<RaceParticipant> raceParticipants = raceParticipantRepository.findAll();
         assertThat(raceParticipants).hasSize(databaseSizeBeforeUpdate);
         RaceParticipant testRaceParticipant = raceParticipants.get(raceParticipants.size() - 1);
-        assertThat(testRaceParticipant.getRaceParticipantId()).isEqualTo(UPDATED_RACE_PARTICIPANT_ID);
+        assertThat(testRaceParticipant.getRaceParticipantId()).isEqualTo(raceParticipant.getRaceParticipantId());
         assertThat(testRaceParticipant.getPetId()).isEqualTo(UPDATED_PET_ID);
         assertThat(testRaceParticipant.getRaceId()).isEqualTo(UPDATED_RACE_ID);
         assertThat(testRaceParticipant.getPetName()).isEqualTo(UPDATED_PET_NAME);

@@ -106,7 +106,6 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
     public void initTest() {
         raceDataRepository.deleteAll();
         raceData = new RaceData();
-        raceData.setRaceDataId(DEFAULT_RACE_DATA_ID);
         raceData.setPetId(DEFAULT_PET_ID);
         raceData.setRaceId(DEFAULT_RACE_ID);
         raceData.setPetName(DEFAULT_PET_NAME);
@@ -126,6 +125,7 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
 
         // Create the RaceData
 
+        raceData.setRaceDataId(null);
         restRaceDataMockMvc.perform(post("/api/race-data")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(raceData)))
@@ -135,7 +135,6 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         List<RaceData> raceData = raceDataRepository.findAll();
         assertThat(raceData).hasSize(databaseSizeBeforeCreate + 1);
         RaceData testRaceData = raceData.get(raceData.size() - 1);
-        assertThat(testRaceData.getRaceDataId()).isEqualTo(DEFAULT_RACE_DATA_ID);
         assertThat(testRaceData.getPetId()).isEqualTo(DEFAULT_PET_ID);
         assertThat(testRaceData.getRaceId()).isEqualTo(DEFAULT_RACE_ID);
         assertThat(testRaceData.getPetName()).isEqualTo(DEFAULT_PET_NAME);
@@ -147,6 +146,7 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         assertThat(testRaceData.getStartTime()).isEqualTo(DEFAULT_START_TIME);
         assertThat(testRaceData.isFinished()).isEqualTo(DEFAULT_FINISHED);
         assertThat(testRaceData.getRunnerPreviousDistance()).isEqualTo(DEFAULT_RUNNER_PREVIOUS_DISTANCE);
+        this.raceData.setRaceDataId(DEFAULT_RACE_DATA_ID);
     }
 
     @Test
@@ -158,7 +158,7 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         restRaceDataMockMvc.perform(get("/api/race-data?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].raceDataId").value(hasItem(DEFAULT_RACE_DATA_ID.toString())))
+                .andExpect(jsonPath("$.[*].raceDataId").value(hasItem(raceData.getRaceDataId().toString())))
                 .andExpect(jsonPath("$.[*].petId").value(hasItem(DEFAULT_PET_ID.toString())))
                 .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID.toString())))
                 .andExpect(jsonPath("$.[*].petName").value(hasItem(DEFAULT_PET_NAME.toString())))
@@ -178,10 +178,10 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
         raceDataRepository.save(raceData);
 
         // Get the raceData
-        restRaceDataMockMvc.perform(get("/api/race-data/{id}", raceData.getPetId()))
+        restRaceDataMockMvc.perform(get("/api/race-data/{id}", raceData.getRaceDataId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.raceDataId").value(DEFAULT_RACE_DATA_ID.toString()))
+            .andExpect(jsonPath("$.raceDataId").value(raceData.getRaceDataId().toString()))
             .andExpect(jsonPath("$.petId").value(DEFAULT_PET_ID.toString()))
             .andExpect(jsonPath("$.raceId").value(DEFAULT_RACE_ID.toString()))
             .andExpect(jsonPath("$.petName").value(DEFAULT_PET_NAME.toString()))
@@ -229,10 +229,10 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
                 .andExpect(status().isOk());
 
         // Validate the RaceData in the database
-        List<RaceData> raceData = raceDataRepository.findAll();
-        assertThat(raceData).hasSize(databaseSizeBeforeUpdate);
-        RaceData testRaceData = raceData.get(raceData.size() - 1);
-        assertThat(testRaceData.getRaceDataId()).isEqualTo(UPDATED_RACE_DATA_ID);
+        List<RaceData> raceDatas = raceDataRepository.findAll();
+        assertThat(raceDatas).hasSize(databaseSizeBeforeUpdate);
+        RaceData testRaceData = raceDatas.get(raceDatas.size() - 1);
+        assertThat(testRaceData.getRaceDataId()).isEqualTo(raceData.getRaceDataId());
         assertThat(testRaceData.getPetId()).isEqualTo(UPDATED_PET_ID);
         assertThat(testRaceData.getRaceId()).isEqualTo(UPDATED_RACE_ID);
         assertThat(testRaceData.getPetName()).isEqualTo(UPDATED_PET_NAME);

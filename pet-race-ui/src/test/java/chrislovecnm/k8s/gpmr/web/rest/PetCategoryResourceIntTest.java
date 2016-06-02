@@ -92,6 +92,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeCreate = petCategoryRepository.findAll().size();
 
         // Create the PetCategory
+        petCategory.setPetCategoryId(null);
 
         restPetCategoryMockMvc.perform(post("/api/pet-categories")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -102,9 +103,10 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         List<PetCategory> petCategories = petCategoryRepository.findAll();
         assertThat(petCategories).hasSize(databaseSizeBeforeCreate + 1);
         PetCategory testPetCategory = petCategories.get(petCategories.size() - 1);
-        assertThat(testPetCategory.getPetCategoryId()).isEqualTo(petCategory.getPetCategoryId());
         assertThat(testPetCategory.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPetCategory.getSpeed()).isEqualTo(DEFAULT_SPEED);
+
+        petCategory.setPetCategoryId(DEFAULT_PET_CATEGORY_ID);
     }
 
     @Test

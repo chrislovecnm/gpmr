@@ -47,7 +47,7 @@ public class RaceNormalResource {
     @Timed
     public ResponseEntity<RaceNormal> createRaceNormal(@RequestBody RaceNormal raceNormal) throws URISyntaxException {
         log.debug("REST request to save RaceNormal : {}", raceNormal);
-        if (raceNormal.getRaceId() != null) {
+        if (raceNormal.getRaceNormalId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("raceNormal", "idexists", "A new raceNormal cannot already have an ID")).body(null);
         }
         RaceNormal result = raceNormalRepository.save(raceNormal);

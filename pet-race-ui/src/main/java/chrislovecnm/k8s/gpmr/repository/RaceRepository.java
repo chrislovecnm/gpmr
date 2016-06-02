@@ -49,9 +49,8 @@ public class RaceRepository extends CassandraPaging {
         race.setDescription(row.getString("description"));
         race.setWinnerId(row.getUUID("winnerId"));
         race.setStartTime(row.getTimestamp("startTime"));
-        race.setEndTime(row.getTimestamp("endTime"));
         race.setBaseSpeed(row.getFloat("baseSpeed"));
-        race.setRacersIds(row.getList("racerIds", UUID.class));
+        race.setRacersIds(row.getList("racersIds", UUID.class));
         return race;
     }
 

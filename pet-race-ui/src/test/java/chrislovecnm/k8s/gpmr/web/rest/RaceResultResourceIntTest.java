@@ -121,6 +121,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
 
         // Create the RaceResult
 
+        raceResult.setRaceResultId(null);
         restRaceResultMockMvc.perform(post("/api/race-results")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(raceResult)))
@@ -130,7 +131,6 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         List<RaceResult> raceResults = raceResultRepository.findAll();
         assertThat(raceResults).hasSize(databaseSizeBeforeCreate + 1);
         RaceResult testRaceResult = raceResults.get(raceResults.size() - 1);
-        assertThat(testRaceResult.getRaceResultId()).isEqualTo(DEFAULT_RACE_RESULT_ID);
         assertThat(testRaceResult.getRaceId()).isEqualTo(DEFAULT_RACE_ID);
         assertThat(testRaceResult.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
         assertThat(testRaceResult.getRaceParticipantId()).isEqualTo(DEFAULT_RACE_PARTICIPANT_ID);
@@ -141,6 +141,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         assertThat(testRaceResult.getFinishPosition()).isEqualTo(DEFAULT_FINISH_POSITION);
         assertThat(testRaceResult.getFinishTime()).isEqualTo(DEFAULT_FINISH_TIME);
         assertThat(testRaceResult.getStartTime()).isEqualTo(DEFAULT_START_TIME);
+        raceResult.setRaceResultId(DEFAULT_RACE_RESULT_ID);
     }
 
     @Test
@@ -223,7 +224,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         List<RaceResult> raceResults = raceResultRepository.findAll();
         assertThat(raceResults).hasSize(databaseSizeBeforeUpdate);
         RaceResult testRaceResult = raceResults.get(raceResults.size() - 1);
-        assertThat(testRaceResult.getRaceResultId()).isEqualTo(UPDATED_RACE_RESULT_ID);
+        assertThat(testRaceResult.getRaceResultId()).isEqualTo(raceResult.getRaceResultId());
         assertThat(testRaceResult.getRaceId()).isEqualTo(UPDATED_RACE_ID);
         assertThat(testRaceResult.getPetCategoryId()).isEqualTo(UPDATED_PET_CATEGORY_ID);
         assertThat(testRaceResult.getRaceParticipantId()).isEqualTo(UPDATED_RACE_PARTICIPANT_ID);
