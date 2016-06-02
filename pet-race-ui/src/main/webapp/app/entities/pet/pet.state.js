@@ -42,7 +42,7 @@
             },
             resolve: {
                 entity: ['$stateParams', 'Pet', function($stateParams, Pet) {
-                    return Pet.get({id : $stateParams.id});
+                    return Pet.get({petId : $stateParams.petId});
                 }]
             }
         })
@@ -67,8 +67,7 @@
                                 description: null,
                                 petCategoryName: null,
                                 petCategoryId: null,
-                                petSpeed: null,
-                                id: null
+                                petSpeed: null
                             };
                         }
                     }
@@ -94,7 +93,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['Pet', function(Pet) {
-                            return Pet.get({id : $stateParams.id});
+                            return Pet.get({petId : $stateParams.petId});
                         }]
                     }
                 }).result.then(function() {
@@ -118,7 +117,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['Pet', function(Pet) {
-                            return Pet.get({id : $stateParams.id});
+                            return Pet.get({petId : $stateParams.petId});
                         }]
                     }
                 }).result.then(function() {

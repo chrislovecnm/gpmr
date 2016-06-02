@@ -42,7 +42,7 @@
             },
             resolve: {
                 entity: ['$stateParams', 'PetCategory', function($stateParams, PetCategory) {
-                    return PetCategory.get({id : $stateParams.id});
+                    return PetCategory.get({petCategoryId : $stateParams.petCategoryId});
                 }]
             }
         })
@@ -65,7 +65,6 @@
                                 petCategoryId: null,
                                 name: null,
                                 speed: null,
-                                id: null
                             };
                         }
                     }
@@ -91,7 +90,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['PetCategory', function(PetCategory) {
-                            return PetCategory.get({id : $stateParams.id});
+                            return PetCategory.get({petCategoryId : $stateParams.petCategoryId});
                         }]
                     }
                 }).result.then(function() {
@@ -115,7 +114,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['PetCategory', function(PetCategory) {
-                            return PetCategory.get({id : $stateParams.id});
+                            return PetCategory.get({petCategoryId : $stateParams.petCategoryId});
                         }]
                     }
                 }).result.then(function() {
