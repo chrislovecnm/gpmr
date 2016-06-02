@@ -102,7 +102,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         List<PetCategory> petCategories = petCategoryRepository.findAll();
         assertThat(petCategories).hasSize(databaseSizeBeforeCreate + 1);
         PetCategory testPetCategory = petCategories.get(petCategories.size() - 1);
-        assertThat(testPetCategory.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
+        assertThat(testPetCategory.getPetCategoryId()).isEqualTo(petCategory.getPetCategoryId());
         assertThat(testPetCategory.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPetCategory.getSpeed()).isEqualTo(DEFAULT_SPEED);
     }
@@ -116,8 +116,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         restPetCategoryMockMvc.perform(get("/api/pet-categories?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(petCategory.getPetCategoryId().toString())))
-                .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
+                .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(petCategory.getPetCategoryId().toString())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].speed").value(hasItem(DEFAULT_SPEED.doubleValue())));
     }
@@ -165,7 +164,7 @@ public class PetCategoryResourceIntTest extends AbstractCassandraTest {
         List<PetCategory> petCategories = petCategoryRepository.findAll();
         assertThat(petCategories).hasSize(databaseSizeBeforeUpdate);
         PetCategory testPetCategory = petCategories.get(petCategories.size() - 1);
-        assertThat(testPetCategory.getPetCategoryId()).isEqualTo(UPDATED_PET_CATEGORY_ID);
+        assertThat(testPetCategory.getPetCategoryId()).isEqualTo(petCategory.getPetCategoryId());
         assertThat(testPetCategory.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPetCategory.getSpeed()).isEqualTo(UPDATED_SPEED);
     }

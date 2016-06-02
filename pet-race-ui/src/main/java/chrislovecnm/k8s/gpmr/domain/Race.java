@@ -34,20 +34,20 @@ public class Race implements Serializable {
 
     private String description;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name = "winnerId")
     private UUID winnerId;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name = "startTime")
     private Date startTime;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name="endTime")
     private Date endTime;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name = "baseSpeed")
     private Float baseSpeed;
 
     @Frozen("list<uuid>")
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name = "racersIds")
     private List<UUID> racersIds;
 
     public UUID getRaceId() {

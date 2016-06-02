@@ -3,6 +3,7 @@ package chrislovecnm.k8s.gpmr.domain;
 import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,40 +18,39 @@ public class RaceData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(caseSensitive = true, name = "raceDataId")
     private UUID raceDataId;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name = "petId")
     private UUID petId;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name="raceId")
     private UUID raceId;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name ="petName")
     private String petName;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name = "petCategoryName")
     private String petCategoryName;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name ="petCategoryId")
     private UUID petCategoryId;
 
-    @Column(caseSensitive = true)
     private Integer interval;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name="runnerPosition")
     private Integer runnerPosition;
 
-    @Column(caseSensitive = true)
-    private Double runnerDistance;
+    @Column(caseSensitive = true, name = "runnerDistance")
+    private BigDecimal runnerDistance;
 
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name="startTime")
     private Date startTime;
 
-    @Column(caseSensitive = true)
     private Boolean finished;
 
-    @Column(caseSensitive = true)
-    private Double runnerPreviousDistance;
+    @Column(caseSensitive = true, name ="runnerPreviousDistance")
+    private BigDecimal runnerPreviousDistance;
 
     public UUID getRaceDataId() {
         return raceDataId;
@@ -116,11 +116,11 @@ public class RaceData implements Serializable {
         this.runnerPosition = runnerPosition;
     }
 
-    public Double getRunnerDistance() {
+    public BigDecimal getRunnerDistance() {
         return runnerDistance;
     }
 
-    public void setRunnerDistance(Double runnerDistance) {
+    public void setRunnerDistance(BigDecimal runnerDistance) {
         this.runnerDistance = runnerDistance;
     }
 
@@ -140,11 +140,11 @@ public class RaceData implements Serializable {
         this.finished = finished;
     }
 
-    public Double getRunnerPreviousDistance() {
+    public BigDecimal getRunnerPreviousDistance() {
         return runnerPreviousDistance;
     }
 
-    public void setRunnerPreviousDistance(Double runnerPreviousDistance) {
+    public void setRunnerPreviousDistance(BigDecimal runnerPreviousDistance) {
         this.runnerPreviousDistance = runnerPreviousDistance;
     }
 

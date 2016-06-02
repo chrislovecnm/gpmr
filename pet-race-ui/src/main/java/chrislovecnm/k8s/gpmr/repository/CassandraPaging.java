@@ -59,6 +59,7 @@ public class CassandraPaging {
      * @return List<Row>
      */
     public List<Row> fetchRowsWithPage(int start, int size) {
+        if(start == 0) start = 1;
         ResultSet result = skipRows(findAllStmtPaging, start, size);
         return getRows(result, start, size);
     }

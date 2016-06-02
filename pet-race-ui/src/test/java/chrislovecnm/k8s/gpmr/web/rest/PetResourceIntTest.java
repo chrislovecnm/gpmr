@@ -112,7 +112,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         List<Pet> pets = petRepository.findAll();
         assertThat(pets).hasSize(databaseSizeBeforeCreate + 1);
         Pet testPet = pets.get(pets.size() - 1);
-        assertThat(testPet.getPetId()).isEqualTo(DEFAULT_PET_ID);
+        assertThat(testPet.getPetId()).isEqualTo(pet.getPetId());
         assertThat(testPet.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPet.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testPet.getPetCategoryName()).isEqualTo(DEFAULT_PET_CATEGORY_NAME);
@@ -186,7 +186,7 @@ public class PetResourceIntTest extends AbstractCassandraTest {
         List<Pet> pets = petRepository.findAll();
         assertThat(pets).hasSize(databaseSizeBeforeUpdate);
         Pet testPet = pets.get(pets.size() - 1);
-        assertThat(testPet.getPetId()).isEqualTo(UPDATED_PET_ID);
+        assertThat(testPet.getPetId()).isEqualTo(pet.getPetId());
         assertThat(testPet.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPet.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testPet.getPetCategoryName()).isEqualTo(UPDATED_PET_CATEGORY_NAME);

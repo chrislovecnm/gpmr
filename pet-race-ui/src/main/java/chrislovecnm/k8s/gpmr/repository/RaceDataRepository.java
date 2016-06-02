@@ -52,10 +52,10 @@ public class RaceDataRepository extends CassandraPaging {
         rd.setPetCategoryId(row.getUUID("petCategoryId"));
         rd.setInterval(row.getInt("interval"));
         rd.setRunnerPosition(row.getInt("runnerPosition"));
-        rd.setRunnerDistance(row.getDouble("runnerDistance"));
+        rd.setRunnerDistance(row.getDecimal("runnerDistance"));
         rd.setStartTime(row.getTimestamp("startTime"));
         rd.setFinished(row.getBool("finished"));
-        rd.setRunnerPreviousDistance(row.getDouble("runnerPreviousDistance"));
+        rd.setRunnerPreviousDistance(row.getDecimal("runnerPreviousDistance"));
         return rd;
     }
 

@@ -16,7 +16,7 @@ public class PetCategory implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    @Column(caseSensitive = true)
+    @Column(caseSensitive = true, name="petCategoryId")
     private UUID petCategoryId;
 
     private String name;

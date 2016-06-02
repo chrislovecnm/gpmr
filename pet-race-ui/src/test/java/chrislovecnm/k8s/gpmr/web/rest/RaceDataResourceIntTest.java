@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -66,8 +67,8 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
     private static final Integer DEFAULT_RUNNER_POSITION = 1;
     private static final Integer UPDATED_RUNNER_POSITION = 2;
 
-    private static final Double DEFAULT_RUNNER_DISTANCE = 1D;
-    private static final Double UPDATED_RUNNER_DISTANCE = 2D;
+    private static final BigDecimal DEFAULT_RUNNER_DISTANCE = BigDecimal.valueOf(1D);
+    private static final BigDecimal UPDATED_RUNNER_DISTANCE = BigDecimal.valueOf(2D);
 
     private static final Date DEFAULT_START_TIME = new Date();
     private static final Date UPDATED_START_TIME = new Date();
@@ -75,8 +76,8 @@ public class RaceDataResourceIntTest extends AbstractCassandraTest {
     private static final Boolean DEFAULT_FINISHED = false;
     private static final Boolean UPDATED_FINISHED = true;
 
-    private static final Double DEFAULT_RUNNER_PREVIOUS_DISTANCE = 1D;
-    private static final Double UPDATED_RUNNER_PREVIOUS_DISTANCE = 2D;
+    private static final BigDecimal DEFAULT_RUNNER_PREVIOUS_DISTANCE = BigDecimal.valueOf(1D);
+    private static final BigDecimal UPDATED_RUNNER_PREVIOUS_DISTANCE = BigDecimal.valueOf(2D);
 
     @Inject
     private RaceDataRepository raceDataRepository;
