@@ -10,6 +10,10 @@ from pet_race_job.model import *
 
 
 class PetRaceCassandraDataStore(object):
+    """
+    This is not good code.  This is code tries to make a lot of calls to Cassandra.  We
+    could use batch, but we want to create reads an writes to C*
+    """
     seeds = []
     keyspace = 'gpmr'
     session = None
@@ -25,23 +29,31 @@ class PetRaceCassandraDataStore(object):
         self.logger.debug("session created")
         super()
 
-    def get_pets_by_name(self, pet_name):
+    @staticmethod
+    def get_pets_by_name(pet_name):
         q = Pet.objects.filter(name=pet_name)
 
         try:
-            pet_objs = q.get()
+            p = q.get()
         except Pet.DoesNotExist:
             raise ValueError('pet not found: ', pet_name)
 
-        self.logger.debug("loaded pet", pet_objs)
-        return pet_objs
+        # self.logger.debug("loaded pet", p)
+        return p
 
-    def get_pets_by_category_name(self, pet_cat_name):
-        q = Pet.objects(petCategoryName=pet_cat_name)
-        self.logger.debug("loaded pets")
-        return q
+    @staticmethod
+    def increment_counter_by_name(name):
+        c = Counter.objects(type=name).get()
+        print(c)
+        v = c.value + 1
+        c.update(value=v)
 
-    def get_pet_category_by_name(self, category_name):
+    @staticmethod
+    def get_pets_by_category_name(pet_cat_name):
+        return Pet.objects(petCategoryName=pet_cat_name)
+
+    @staticmethod
+    def get_pet_category_by_name(category_name):
         q = PetCategory.objects.filter(name=category_name)
 
         try:
@@ -49,31 +61,32 @@ class PetRaceCassandraDataStore(object):
         except PetCategory.DoesNotExist:
             raise ValueError('category not found: ', category_name)
 
-        self.logger.debug("loaded cat")
+        # self.logger.debug("loaded cat")
         return pet_cat
 
-    def create_race(self, length, description, pet_category_name):
+    @staticmethod
+    def create_race(length, description, pet_category_name):
         dt = datetime.utcnow()
         uuid = uuid_from_time(dt)
 
         # TODO this is loading all pets ... random number??
-        race_pets = self.get_pets_by_category_name(pet_category_name)
-        pet_category = self.get_pet_category_by_name(pet_category_name)
+        race_pets = PetRaceCassandraDataStore.get_pets_by_category_name(pet_category_name)
+        pet_c = PetRaceCassandraDataStore.get_pet_category_by_name(pet_category_name)
 
         pet_ids = []
-        for _pet in race_pets:
-            pet_ids.append(str(_pet["petId"]))
+        for p in race_pets:
+            pet_ids.append(str(p["petId"]))
 
         saved_race = {
             'raceId': str(uuid),
             'numOfPets': len(race_pets),
             'length': length,
             'description': description,
-            'petCategoryId': str(pet_category['petCategoryId']),
-            'petCategoryName': pet_category['name'],
+            'petCategoryId': str(pet_c['petCategoryId']),
+            'petCategoryName': pet_c['name'],
             'startTime': dt,
             'racersIds': pet_ids,
-            'baseSpeed': pet_category['speed']
+            'baseSpeed': pet_c['speed']
         }
 
         Race.create(
@@ -81,31 +94,31 @@ class PetRaceCassandraDataStore(object):
             numOfPets=len(race_pets),
             length=length,
             description=description,
-            petCategoryId=pet_category['petCategoryId'],
-            petCategoryName=pet_category['name'],
+            petCategoryId=pet_c['petCategoryId'],
+            petCategoryName=pet_c['name'],
             startTime=dt,
             racersIds=pet_ids,
-            baseSpeed=pet_category['speed']
+            baseSpeed=pet_c['speed']
         )
+
+        PetRaceCassandraDataStore.increment_counter_by_name('Race')
 
         participants = {}
 
-        for pet in race_pets:
+        for p in race_pets:
             p_id = uuid_from_time(datetime.utcnow())
 
             participant = {
                 'raceParticipantId': str(p_id),
-                'petId': str(pet["petId"]),
+                'petId': str(p["petId"]),
                 'raceId': str(uuid),
-                'petName': pet["name"],
-                # petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
-                'petCategoryName': pet_category['name'],
-                'petCategoryId': str(pet_category['petCategoryId']),
+                'petName': p["name"],
+                'petCategoryName': pet_c['name'],
+                'petCategoryId': str(pet_c['petCategoryId']),
                 'startTime': dt,
                 'endTime': None,
                 'finished': False,
                 'finished_position': None,
-                'racers_positions_by_time': [],
                 'current_distance': 0
             }
 
@@ -113,14 +126,14 @@ class PetRaceCassandraDataStore(object):
 
             RaceParticipant.create(
                 raceParticipantId=p_id,
-                petId=_pet["petId"],
+                petId=p["petId"],
                 raceId=uuid,
-                petName=_pet["name"],
-                # petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
-                petCategoryName=pet_category['name'],
-                petCategoryId=pet_category['petCategoryId'],
+                petName=p["name"],
+                petCategoryName=pet_c['name'],
+                petCategoryId=pet_c['petCategoryId'],
                 startTime=dt
             )
+            PetRaceCassandraDataStore.increment_counter_by_name('RaceParticipant')
 
         # self.logger.debug("race created")
         # self.logger.debug("race created: %s", saved_race)
@@ -157,11 +170,8 @@ class PetRaceCassandraDataStore(object):
             normalScale=scale,
             normalSize=size
         )
+        PetRaceCassandraDataStore.increment_counter_by_name('RaceNormal')
         # self.logger.debug("normal saved")
-
-        # TODO
-        # def save_racer_current(self, racer, current_race, finished):
-        # self.logger.debug("save racer current")
 
     @staticmethod
     def save_racer_finish(racer):
@@ -190,6 +200,7 @@ class PetRaceCassandraDataStore(object):
             startTime=current_race['startTime'],
             finished=race_sample['finished']
         )
+        PetRaceCassandraDataStore.increment_counter_by_name('RaceData')
 
     @staticmethod
     def update_race_winner(current_race):
@@ -209,3 +220,4 @@ class PetRaceCassandraDataStore(object):
                 finishTime=value['finish_time'],
                 startTime=current_race['startTime']
             )
+            PetRaceCassandraDataStore.increment_counter_by_name('RaceResult')
