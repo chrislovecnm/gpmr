@@ -70,9 +70,7 @@
                                 description: null,
                                 winnerId: null,
                                 startTime: null,
-                                endTime: null,
                                 baseSpeed: null,
-                                id: null
                             };
                         }
                     }
@@ -98,7 +96,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['Race', function(Race) {
-                            return Race.get({id : $stateParams.id});
+                            return Race.get({raceId : $stateParams.raceId});
                         }]
                     }
                 }).result.then(function() {
@@ -122,7 +120,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['Race', function(Race) {
-                            return Race.get({id : $stateParams.id});
+                            return Race.get({raceId : $stateParams.raceId});
                         }]
                     }
                 }).result.then(function() {
