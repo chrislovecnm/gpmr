@@ -34,10 +34,10 @@ class PetRace(object):
     race_length = None
 
     def __init__(self, seeds, keyspace):
-        super()
         self.logger = logging.getLogger('pet_race_job')
         self.data_source = PetRaceCassandraDataStore(seeds, keyspace)
         self.logger.debug("race __init__")
+        super()
 
     def create_race(self, length, description, pet_category_name, normal_scale):
         """
