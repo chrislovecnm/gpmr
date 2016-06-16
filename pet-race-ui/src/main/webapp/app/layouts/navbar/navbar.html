@@ -1,27 +1,13 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-click="vm.toggleNavbar()">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand logo" href="#/" ng-click="vm.collapseNavbar()">
-                <img class="logo-img" src="content/images/logo-jhipster.png"/>
-                <span>Gpmr</span> <span class="navbar-version">v{{VERSION}}</span>
-            </a>
+<div class="nav_menu">
+    <nav class="" role="navigation">
+        <div class="nav toggle">
+            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
         </div>
+
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
             <ul class="nav navbar-nav navbar-right">
-                <li ui-sref-active="active">
-                    <a ui-sref="home" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-home"></span>
-                        <span class="hidden-sm">Home</span>
-                    </a>
-                </li>
-                <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-                <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown class="dropdown pointer">
+                <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown
+                    class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
@@ -32,77 +18,48 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
-                        <!--
-                        <li ui-sref-active="active" >
-                            <a ui-sref="pet-categories" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Pet Categories</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" >
-                            <a ui-sref="pets" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Pets</span>
-                            </a>
-                        </li>
-                        -->
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="race-data" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race Data</span>
+                                <span>Race Data</span>
                             </a>
                         </li>
-                        <!--
-                        <li ui-sref-active="active" >
-                            <a ui-sref="race-participants" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race Participants</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" >
-                            <a ui-sref="race-results" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race Results</span>
-                            </a>
-                        </li>
-                        -->
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="race" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race</span>
+                                <span>Race</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="pet" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Pet</span>
+                                <span>Pet</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="pet-category" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Pet Category</span>
+                                <span>Pet Category</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="race-participant" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race Participant</span>
+                                <span>Race Participant</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="race-result" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race Result</span>
+                                <span>Race Result</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" >
+                        <li ui-sref-active="active">
                             <a ui-sref="race-normal" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Race Normal</span>
+                                <span>Race Normal</span>
                             </a>
                         </li>
-                        <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>
                 <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
@@ -148,7 +105,9 @@
                         </li>
                     </ul>
                 </li>
-                <li ng-class="{active: vm.$state.includes('admin')}"  ng-switch-when="true" has-authority="ROLE_ADMIN" uib-dropdown class="dropdown pointer">
+                <li ng-class="{active: vm.$state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN"
+                    uib-dropdown class="dropdown pointer">
+
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="admin-menu">
                         <span>
                             <span class="glyphicon glyphicon-tower"></span>
@@ -205,10 +164,96 @@
                                 <span>API</span>
                             </a>
                         </li>
-                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     </ul>
                 </li>
             </ul>
         </div>
-    </div>
-</nav>
+    </nav>
+</div>
+
+<!--
+<ul class="nav navbar-nav navbar-right">
+    <li class="">
+        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <img src="images/img.jpg" alt="">John Doe
+            <span class=" fa fa-angle-down"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-usermenu pull-right">
+            <li><a href="javascript:;"> Profile</a></li>
+            <li>
+                <a href="javascript:;">
+                    <span class="badge bg-red pull-right">50%</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li><a href="javascript:;">Help</a></li>
+            <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+        </ul>
+    </li>
+
+    <li role="presentation" class="dropdown">
+        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-envelope-o"></i>
+            <span class="badge bg-green">6</span>
+        </a>
+        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+            <li>
+                <a>
+                    <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span>
+              <span>John Smith</span>
+              <span class="time">3 mins ago</span>
+            </span>
+            <span class="message">
+              Film festivals used to be do-or-die moments for movie makers. They were where...
+            </span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span>
+              <span>John Smith</span>
+              <span class="time">3 mins ago</span>
+            </span>
+            <span class="message">
+              Film festivals used to be do-or-die moments for movie makers. They were where...
+            </span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span>
+              <span>John Smith</span>
+              <span class="time">3 mins ago</span>
+            </span>
+            <span class="message">
+              Film festivals used to be do-or-die moments for movie makers. They were where...
+            </span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span>
+              <span>John Smith</span>
+              <span class="time">3 mins ago</span>
+            </span>
+            <span class="message">
+              Film festivals used to be do-or-die moments for movie makers. They were where...
+            </span>
+                </a>
+            </li>
+            <li>
+                <div class="text-center">
+                    <a>
+                        <strong>See All Alerts</strong>
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul> -->
+

@@ -13,13 +13,16 @@
     <!-- endinject -->
     <link rel="stylesheet" href="content/css/vendor.css">
     <!-- endbuild -->
+
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
     <!-- bower:css -->
     <link href="bower_components/gentelella/vendors/font-awesome/css/font-awesome.css" rel="stylesheet">
+
     <!-- endinject -->
     <!-- bower:css -->
+    <link href="bower_components/gentelella/build/css/custom.css" rel="stylesheet">
     <link href="bower_components/gentelella/vendors/animate.css/animate.css" rel="stylesheet">
     <link href="bower_components/gentelella/vendors/iCheck/skins/flat/blue.css" rel="stylesheet">
     <link href="bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
@@ -27,19 +30,23 @@
     <!--link href="bower_components/gentelella/vendors/mcss/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/-->
 
 </head>
-<body ng-app="gpmrApp">
+<body ng-app="gpmrApp" class="nav-md">
     <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <page-ribbon></page-ribbon>
-    <div ui-view="navbar" ng-cloak></div>
-    <div class="container">
-        <div class="well" ui-view="content">
+    <div class="container body">
+        <div class="main_container">
+        <div ui-view="sidebar" ng-cloak class="col-md-3 left_col"></div>
+        <div ui-view="navbar" ng-cloak class="top_nav"></div>
+
+        <div ui-view="content" class="right_col" role="main" style="min-height: 1694px;">
             <!-- Angular views -->
         </div>
 
         <div class="footer" ng-cloak>
-            <p>This is your footer</p>
+            <p>© 2016 <a href="https://github.com/k8s-for-greeks/">K8s for Greeks</a>
+        </div>
         </div>
     </div>
 
@@ -73,6 +80,27 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/gentelella/build/js/custom.js"></script>
+    <script src="bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/gentelella/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/gentelella/vendors/nprogress/nprogress.js"></script>
+    <script src="bower_components/gentelella/vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="bower_components/gentelella/vendors/bernii/gauge.js/dist/gauge.min.js"></script>
+    <script src="bower_components/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="bower_components/gentelella/vendors/iCheck/icheck.min.js"></script>
+    <script src="bower_components/gentelella/vendors/skycons/skycons.js"></script>
+    <script src="bower_components/gentelella/vendors/Flot/jquery.flot.js"></script>
+    <script src="bower_components/gentelella/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="bower_components/gentelella/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="bower_components/gentelella/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="bower_components/gentelella/vendors/Flot/jquery.flot.resize.js"></script>
+    <script src="bower_components/gentelella/production/js/flot/jquery.flot.orderBars.js"></script>
+    <script src="bower_components/gentelella/production/js/flot/date.js"></script>
+    <script src="bower_components/gentelella/production/js/flot/jquery.flot.spline.js"></script>
+    <script src="bower_components/gentelella/production/js/flot/curvedLines.js"></script>
+    <script src="bower_components/gentelella/production/js/maps/jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="bower_components/gentelella/production/js/moment/moment.min.js"></script>
+    <script src="bower_components/gentelella/production/js/datepicker/daterangepicker.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

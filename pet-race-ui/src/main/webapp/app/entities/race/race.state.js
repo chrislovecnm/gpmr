@@ -41,8 +41,11 @@
                 }
             },
             resolve: {
-                entity: ['$stateParams', 'Race', function($stateParams, Race) {
-                    return Race.get({raceId : $stateParams.raceId});
+                entity: ['$stateParams', 'Race', function($stateParams, Race, Pet) {
+                    var race = Race.get({raceId : $stateParams.raceId});
+                    //var pet = Pet.get({petId: race.winnerId})
+                    //race.winner = pet
+                    return race 
                 }]
             }
         })
@@ -70,7 +73,7 @@
                                 description: null,
                                 winnerId: null,
                                 startTime: null,
-                                baseSpeed: null,
+                                baseSpeed: null
                             };
                         }
                     }
