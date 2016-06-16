@@ -57,8 +57,6 @@
             $FOOTER = $('footer');
 
         $('#sidebar-menu').find('a').on('click', function (ev) {
-            console.log('start');
-            console.log('here');
             var $li = $(this).parent();
 
             if ($li.is('.active')) {

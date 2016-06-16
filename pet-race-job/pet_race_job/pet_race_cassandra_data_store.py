@@ -51,7 +51,7 @@ class PetRaceCassandraDataStore(object):
 
     @staticmethod
     def increment_counter_by_name(name):
-        c = Counter.objects(type=name).get()
+        c = DataCounter.objects(vtype=name).get()
         v = c.value + 1
         c.update(value=v)
 
