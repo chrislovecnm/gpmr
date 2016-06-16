@@ -14,7 +14,6 @@
     function SidebarController($state, Auth, Principal, ProfileService, LoginService) {
         var vm = this;
 
-        vm.isSidebarCollapsed = true;
         vm.isAuthenticated = Principal.isAuthenticated;
 
         ProfileService.getProfileInfo().then(function (response) {
@@ -24,39 +23,27 @@
 
         vm.login = login;
         vm.logout = logout;
-        vm.toggleSidebar = toggleSidebar;
-        vm.collapseSidebar = collapseSidebar;
         vm.$state = $state;
 
         function login() {
-            collapseSidebar();
             LoginService.open();
         }
 
         function logout() {
-            collapseSidebar();
             Auth.logout();
             $state.go('home');
         }
 
-        function toggleSidebar() {
-            vm.isSidebarCollapsed = !vm.isNavbarCollapsed;
-        }
+        $BODY = $('body');
+        $MENU_TOGGLE = $('#menu_toggle');
+        $SIDEBAR_MENU = $('#sidebar-menu');
+        $SIDEBAR_FOOTER = $('.sidebar-footer');
+        $LEFT_COL = $('.left_col');
+        $RIGHT_COL = $('.right_col');
+        $NAV_MENU = $('.nav_menu');
+        $FOOTER = $('footer');
 
-        function collapseSidebar() {
-            vm.isSidebarCollapsed = true;
-        }
-
-        $BODY = $('body'),
-            $MENU_TOGGLE = $('#menu_toggle'),
-            $SIDEBAR_MENU = $('#sidebar-menu'),
-            $SIDEBAR_FOOTER = $('.sidebar-footer'),
-            $LEFT_COL = $('.left_col'),
-            $RIGHT_COL = $('.right_col'),
-            $NAV_MENU = $('.nav_menu'),
-            $FOOTER = $('footer');
-
-        $('#sidebar-menu').find('a').on('click', function (ev) {
+        $SIDEBAR_MENU.find('a[class=col-menu]').on('click', function (ev) {
             var $li = $(this).parent();
 
             if ($li.is('.active')) {
