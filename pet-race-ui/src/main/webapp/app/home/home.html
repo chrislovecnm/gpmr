@@ -2,7 +2,7 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <div ng-hide="!vm.isAuthenticated()">
+                <div has-authority="ROLE_USER">
 
                     <!-- top tiles -->
                     <div class="row tile_count">
@@ -31,7 +31,26 @@
                             <div class="count">{{vm.dataCounters['RaceParticipant'] | number}}</div>
                         </div>
                     </div>
+
                     <!-- /top tiles -->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="dashboard_graph">
+
+                            <div class="row x_title">
+                                <div class="col-md-6">
+                                    <h3>Race Normal <small>Random Normals by Pet</small></h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="NormalsByPetController">
+                                <nvd3 options="options" data="data" api="api"></nvd3>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div ng-hide="vm.isAuthenticated()">
                     <div class="page-title">
