@@ -2,12 +2,12 @@
     'use strict';
     angular
         .module('gpmrApp')
-        .factory('RaceNormal', RaceNormal);
+        .factory('RaceNormalAll', RaceNormalAll);
 
-    RaceNormal.$inject = ['$resource', 'DateUtils'];
+    RaceNormalAll.$inject = ['$resource', 'DateUtils'];
 
-    function RaceNormal ($resource, DateUtils) {
-        var resourceUrl =  'api/race-normals/:raceNormalId';
+    function RaceNormalAll ($resource, DateUtils) {
+        var resourceUrl =  'api/race-normals-all';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
@@ -19,8 +19,6 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' },
-            
         });
     }
 })();
