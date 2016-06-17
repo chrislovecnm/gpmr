@@ -51,6 +51,7 @@ var randomColor = (function(){
     function NormalsByPetController($scope, RaceNormal, $log) {
 
         var vm = this;
+        vm.count = 0;
         vm.data = [];
         vm.normals = {};
         vm.options = {
@@ -74,10 +75,16 @@ var randomColor = (function(){
         };
 
         vm.loadAll = function () {
+            
+            RaceNormal.query({page: vm.page,
+                size: 100
+            }, onSuccess, onError);
 
-            RaceNormal.query(function (result) {
-                for (var i = 0; i < result.length; i++) {
-                    var j = result[i];
+            function onSuccess(data, headers) {
+                vm.totalItems = headers('X-Total-Count');
+                vm.count = vm.count + data.length;
+                for (var i = 0; i < data.length; i++) {
+                    var j = data[i];
                     if (!(j.petCategoryName in vm.normals)) {
                         vm.normals[j.petCategoryName] = {
                             normals: j.normals,
@@ -102,11 +109,11 @@ var randomColor = (function(){
                     $log.log(_clean_nums.toArray());
                     var _max = _clean_nums.max();
                     vm.data.push({
-                       label: key,
+                        label: key,
                         values: {
-                            Q1:  _clean_nums.q1(),
-                            Q2:  _clean_nums.median(),
-                            Q3:  _clean_nums.q3(),
+                            Q1: _clean_nums.q1(),
+                            Q2: _clean_nums.median(),
+                            Q3: _clean_nums.q3(),
                             whisker_low: _clean_nums.min(),
                             whisker_high: _max,
                             outliers: _outliers.toArray()
@@ -116,12 +123,24 @@ var randomColor = (function(){
                     if (vm.options.chart.yDomain[1] < _max + 10) {
                         vm.options.chart.yDomain[1] = Math.ceil((_max + 10));
                     }
+                    $scope.options = vm.options;
+                    $scope.data = vm.data;
                 });
+                
+                if (vm.count <= vm.totalItems) {
+                    vm.loadPage(vm.page + 1);
+                }
 
-                $scope.options = vm.options;
-                $scope.data = vm.data;
-            });
+            }
 
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        vm.loadPage = function(page) {
+            vm.page = page;
+            vm.loadAll();
         };
 
         /*
@@ -206,7 +225,7 @@ var randomColor = (function(){
         ];*/
 
         vm.loadAll();
-        
+
     }
 })();
 
