@@ -37,28 +37,6 @@ var randomColor = (function(){
     };
 })();
 
-function sortNumber(a,b) {
-    return a - b;
-}
-
-function median(values) {
-
-    values.sort( function(a,b) {return a - b;} );
-
-    var half = Math.floor(values.length/2);
-    var _mean = null;
-
-    if(values.length % 2)
-        _mean = values[half];
-    else
-        _mean = (values[half-1] + values[half]) / 2.0;
-
-    
-    return {
-       mean:_mean
-    }
-}
-
 (function () {
     'use strict';
 
@@ -73,15 +51,31 @@ function median(values) {
     function NormalsByPetController($scope, RaceNormal, $log) {
 
         var vm = this;
-        vm.normals = null;
-
-
-
+        vm.data = [];
+        vm.normals = {};
+        vm.options = {
+            chart: {
+                type: 'boxPlotChart',
+                height: 450,
+                margin: {
+                    top: 20,
+                    right: 20,
+                    bottom: 60,
+                    left: 40
+                },
+                color: [],
+                x: function (d) {
+                    return d.label;
+                },
+                // y: function(d){return d.values.Q3;},
+                maxBoxWidth: 75,
+                yDomain: [-10, 0]
+            }
+        };
 
         vm.loadAll = function () {
 
             RaceNormal.query(function (result) {
-                vm.normals = {};
                 for (var i = 0; i < result.length; i++) {
                     var j = result[i];
                     if (!(j.petCategoryName in vm.normals)) {
@@ -91,27 +85,46 @@ function median(values) {
                             normalScale: j.normalScale
                         }
                     } else {
-                        vm.normals[j.petCategoryName].normals.push(j.normals);
+                        vm.normals[j.petCategoryName].normals.concat(j.normals);
                     }
                 }
 
                 Object.keys(vm.normals).forEach(function(key,index) {
-                    vm.normals[key].normals
-                    // key: the name of the object key
-                    // index: the ordinal position of the key within the object
+                    var a = vm.normals[key].normals;
+                    var nums = stats(vm.normals[key].normals).sort();
+                    $log.log("stats");
+                    $log.log(nums);
+                    var _outliers = nums.clone().findOutliers();
+                    $log.log("outliers");
+                    $log.log(_outliers.toArray());
+                    var _clean_nums = nums.removeOutliers();
+                    $log.log("clean");
+                    $log.log(_clean_nums.toArray());
+                    var _max = _clean_nums.max();
+                    vm.data.push({
+                       label: key,
+                        values: {
+                            Q1:  _clean_nums.q1(),
+                            Q2:  _clean_nums.median(),
+                            Q3:  _clean_nums.q3(),
+                            whisker_low: _clean_nums.min(),
+                            whisker_high: _max,
+                            outliers: _outliers.toArray()
+                        }
+                    });
+                    vm.options.chart.color.push(randomColor());
+                    if (vm.options.chart.yDomain[1] < _max + 10) {
+                        vm.options.chart.yDomain[1] = Math.ceil((_max + 10));
+                    }
                 });
 
-                for (var property in vm.normals) {
-                    if (vm.normals.hasOwnProperty(property)) {
-                        var normals = vm.normals.sort(sortNumber);
-
-                    }
-                }
-
+                $scope.options = vm.options;
+                $scope.data = vm.data;
             });
 
         };
 
+        /*
         $scope.options = {
                 chart: {
                     type: 'boxPlotChart',
@@ -132,9 +145,6 @@ function median(values) {
                     yDomain: [0, 500]
                 }
             };
-
-
-
 
 
         $scope.data = [
@@ -193,9 +203,10 @@ function median(values) {
                     outliers: [50, 100, 200]
                 }
             }
-        ];
+        ];*/
 
         vm.loadAll();
+        
     }
 })();
 
