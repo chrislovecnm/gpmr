@@ -140,7 +140,6 @@ public class MetricResourceIntTest extends AbstractCassandraTest {
     public void initTest() {
         metricRepository.deleteAll();
         metric = new Metric();
-        metric.setMetricId(DEFAULT_METRIC_ID);
         metric.setConnectionErrors(DEFAULT_CONNECTION_ERRORS);
         metric.setWriteTimeouts(DEFAULT_WRITE_TIMEOUTS);
         metric.setReadTimeouts(DEFAULT_READ_TIMEOUTS);
@@ -214,8 +213,7 @@ public class MetricResourceIntTest extends AbstractCassandraTest {
         restMetricMockMvc.perform(get("/api/metrics?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(metric.getId().toString())))
-                .andExpect(jsonPath("$.[*].metricId").value(hasItem(DEFAULT_METRIC_ID.toString())))
+                .andExpect(jsonPath("$.[*].metricId").value(hasItem(metric.getMetricId().toString())))
                 .andExpect(jsonPath("$.[*].connectionErrors").value(hasItem(DEFAULT_CONNECTION_ERRORS)))
                 .andExpect(jsonPath("$.[*].writeTimeouts").value(hasItem(DEFAULT_WRITE_TIMEOUTS)))
                 .andExpect(jsonPath("$.[*].readTimeouts").value(hasItem(DEFAULT_READ_TIMEOUTS)))
@@ -246,11 +244,10 @@ public class MetricResourceIntTest extends AbstractCassandraTest {
         metricRepository.save(metric);
 
         // Get the metric
-        restMetricMockMvc.perform(get("/api/metrics/{id}", metric.getId()))
+        restMetricMockMvc.perform(get("/api/metrics/{id}", metric.getMetricId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(metric.getId().toString()))
-            .andExpect(jsonPath("$.metricId").value(DEFAULT_METRIC_ID.toString()))
+            .andExpect(jsonPath("$.metricId").value(metric.getMetricId().toString()))
             .andExpect(jsonPath("$.connectionErrors").value(DEFAULT_CONNECTION_ERRORS))
             .andExpect(jsonPath("$.writeTimeouts").value(DEFAULT_WRITE_TIMEOUTS))
             .andExpect(jsonPath("$.readTimeouts").value(DEFAULT_READ_TIMEOUTS))
@@ -290,8 +287,7 @@ public class MetricResourceIntTest extends AbstractCassandraTest {
 
         // Update the metric
         Metric updatedMetric = new Metric();
-        updatedMetric.setId(metric.getId());
-        updatedMetric.setMetricId(UPDATED_METRIC_ID);
+        updatedMetric.setMetricId(metric.getMetricId());
         updatedMetric.setConnectionErrors(UPDATED_CONNECTION_ERRORS);
         updatedMetric.setWriteTimeouts(UPDATED_WRITE_TIMEOUTS);
         updatedMetric.setReadTimeouts(UPDATED_READ_TIMEOUTS);
@@ -356,7 +352,7 @@ public class MetricResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = metricRepository.findAll().size();
 
         // Get the metric
-        restMetricMockMvc.perform(delete("/api/metrics/{id}", metric.getId())
+        restMetricMockMvc.perform(delete("/api/metrics/{id}", metric.getMetricId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
