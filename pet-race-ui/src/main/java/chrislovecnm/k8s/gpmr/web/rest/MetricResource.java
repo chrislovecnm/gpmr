@@ -98,6 +98,23 @@ public class MetricResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/metrics");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+    /**
+     * GET  /metrics-java
+     *
+     * @return the ResponseEntity with status 200 (OK) and with body the metric, or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/metrics-java",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Metric> getMetricJava() {
+        Metric metric = metricRepository.getJava();
+        return Optional.ofNullable(metric)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
     /**
      * GET  /metrics/:id : get the "id" metric.

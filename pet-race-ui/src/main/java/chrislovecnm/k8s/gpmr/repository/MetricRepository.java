@@ -52,6 +52,13 @@ public class MetricRepository extends CassandraPaging {
         return metrics;
     }
 
+    public Metric getJava() {
+        Metrics metrics = session.getCluster().getMetrics();
+        Metric metric = new Metric();
+        metric.setKnownHosts(metrics.getConnectedToHosts().getValue());
+        return metric;
+    }
+
     private Metric rowCall(Row row) {
         Metric metric = new Metric();
         metric.setMetricId(row.getUUID("metricId"));
@@ -77,7 +84,6 @@ public class MetricRepository extends CassandraPaging {
         metric.setReq99percentile(row.getDouble("req99percentile"));
         metric.setReq999percentile(row.getDouble("req999percentile"));
         metric.setDateCreated(row.getTimestamp("dateCreated"));
-        metric.setJavaKnownHosts(connected);
         return metric;
     }
 

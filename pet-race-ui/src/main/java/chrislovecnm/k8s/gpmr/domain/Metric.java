@@ -53,7 +53,7 @@ public class Metric implements Serializable {
     @Column(caseSensitive = true,name = "reqCount")
     private Integer reqCount;
 
-    @Column(caseSensitive = true,name = "reqMixLatency")
+    @Column(caseSensitive = true,name = "reqMinLatency")
     private Double reqMinLatency;
 
     @Column(caseSensitive = true,name = "reqMaxLatency")
@@ -85,9 +85,6 @@ public class Metric implements Serializable {
 
     @Column(caseSensitive = true,name = "dateCreated")
     private Date dateCreated;
-
-    @Transient
-    private Integer javaKnownHosts;
 
     public UUID getMetricId() {
         return metricId;
@@ -322,11 +319,4 @@ public class Metric implements Serializable {
             '}';
     }
 
-    public Integer getJavaKnownHosts() {
-        return javaKnownHosts;
-    }
-
-    public void setJavaKnownHosts(Integer javaKnownHosts) {
-        this.javaKnownHosts = javaKnownHosts;
-    }
 }
