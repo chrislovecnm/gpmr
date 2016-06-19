@@ -47,11 +47,9 @@ if [ -n "$RESTARTED" ]; then
 fi
 
 if [ -n "$CASS" ]; then
-  NUM_PO=$(echo "$PO" | wc -l)
   EXEC=$(kubectl.sh exec -it cassandra-2 -- nodetool status | grep UN | wc -l)
   echo "=============================="
   echo "CASSANDRA INFO"
-  echo "cass pods up:       $NUM_PO"
   echo "nodetool status UN: $EXEC"
 fi
 
