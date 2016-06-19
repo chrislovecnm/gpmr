@@ -4,7 +4,7 @@ metadata:
   name: cassandra
 spec:
   serviceName: cassandra
-  replicas: 1000
+  replicas: 100
   template:
     metadata:
       annotations:
@@ -29,10 +29,10 @@ spec:
           name: cql
         resources:
           limits:
-            cpu: "2"
+            cpu: "3"
             memory: 5Gi
           requests:
-           cpu: "2"
+           cpu: "3"
            memory: 5Gi
         securityContext:
           privileged: true
