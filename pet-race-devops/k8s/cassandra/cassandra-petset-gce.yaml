@@ -30,10 +30,10 @@ spec:
         resources:
           limits:
             cpu: "2"
-            memory: 4Gi
+            memory: 5Gi
           requests:
            cpu: "2"
-           memory: 4Gi
+           memory: 5Gi
         securityContext:
           privileged: true
         env:
@@ -48,7 +48,7 @@ spec:
           - name: CASSANDRA_SERVICE_NUM_SEEDS
             value: "4"
           - name: CASSANDRA_RING_DELAY
-            value: "8000"
+            value: "10000"
           - name: POD_NAMESPACE
             valueFrom:
               fieldRef:
