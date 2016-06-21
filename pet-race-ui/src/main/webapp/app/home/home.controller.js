@@ -35,11 +35,20 @@
         }
 
         vm.loadAll = function() {
-            DataCounter.query(function(result) {
+            DataCounter.query({
+                page: 1,
+                size: 100,
+            }, onSuccess, onError);
+            function onSuccess(result, headers) {
                 vm.dataCounters = {};
                 for (var i = 0; i < result.length; i++) {
                     vm.dataCounters[result[i].vtype] = result[i].value;
                 }
+            }
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+            DataCounter.query(function(result) {
             });
             
             MetricJava.get(function(result) {

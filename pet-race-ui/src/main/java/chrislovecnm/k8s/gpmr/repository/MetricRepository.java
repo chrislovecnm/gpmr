@@ -29,12 +29,12 @@ public class MetricRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(Metric.class);
-        createPaging(mapper,"gpmr","metric");
+        createPaging("gpmr","metric");
     }
 
     public Page<Metric> findAll(Pageable pageable) {
         List<Metric> metrics = new ArrayList<>();
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(metrics::add);
         Page<Metric> page = new PageImpl<>(metrics,pageable,metrics.size());
