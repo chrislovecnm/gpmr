@@ -4,7 +4,7 @@ metadata:
   name: cassandra
 spec:
   serviceName: cassandra
-  replicas: 100
+  replicas: 1000
   template:
     metadata:
       annotations:
@@ -29,11 +29,11 @@ spec:
           name: cql
         resources:
           limits:
-            cpu: "3"
-            memory: 5Gi
+            cpu: "2"
+            memory: 4Gi
           requests:
-           cpu: "3"
-           memory: 5Gi
+           cpu: "2"
+           memory: 4Gi
         securityContext:
           privileged: true
         env:
@@ -48,7 +48,7 @@ spec:
           - name: CASSANDRA_SERVICE_NUM_SEEDS
             value: "4"
           - name: CASSANDRA_RING_DELAY
-            value: "10000"
+            value: "8000"
           - name: POD_NAMESPACE
             valueFrom:
               fieldRef:
