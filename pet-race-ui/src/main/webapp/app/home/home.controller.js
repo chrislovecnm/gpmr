@@ -54,6 +54,10 @@
             MetricJava.get(function(result) {
                vm.javaMetric = result;
             });
+            
+            MetricJava.get(function(result) {
+               vm.javaMetric = result;
+            });
         };
         vm.loadAll();
     }
