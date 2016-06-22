@@ -4,7 +4,7 @@ metadata:
   name: cassandra-data
 spec:
   serviceName: cassandra-data
-  replicas: 5
+  replicas: 3
   template:
     metadata:
       annotations:
@@ -40,7 +40,7 @@ spec:
           - name: HEAP_NEWSIZE
             value: 2048M
           - name: CASSANDRA_SEEDS
-            value: "cassandra-data-0.cassandra-data.default.svc.cluster.local,cassandra-data-1.cassandra-data.default.svc.cluster.local"
+            value: "cassandra-data-0.cassandra-data.default.svc.cluster.local,cassandra-data-1.cassandra-data.default.svc.cluster.local,cassandra-analytics-0.cassandra-analytics.default.svc.cluster.local,cassandra-analytics-1.cassandra-analytics.default.svc.cluster.local"
           - name: CASSANDRA_NUM_TOKENS
             value: "16"
           - name: CASSANDRA_CLUSTER_NAME
@@ -50,7 +50,7 @@ spec:
           - name: CASSANDRA_DC
             value: "DC1-Data"
           - name: CASSANDRA_RACK
-            value: "OneKDemo_Rack1"
+            value: "OneKDemo-Rack1-Data"
           - name: CASSANDRA_OPEN_JMX
             value: "true"
           - name: CASSANDRA_AUTO_BOOTSTRAP
