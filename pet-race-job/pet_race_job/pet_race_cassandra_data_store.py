@@ -28,10 +28,9 @@ class PetRaceCassandraDataStore(object):
         self.keyspace = keyspace
 
         # TODO configure ConsitencyLevel
-        # TODO configure local_dc
         setup_cass(self.seeds, self.keyspace,
                    consistency=ConsistencyLevel.TWO, lazy_connect=False,
-                   retry_connect=True, metrics_enabled=True, local_dc='DC1-Data')
+                   retry_connect=True, metrics_enabled=True)
         #setup_cass(self.seeds, self.keyspace, consistency=ConsistencyLevel.ONE, lazy_connect=False, retry_connect=True)
         self.session = get_session()
         set_session(self.session)
