@@ -4,7 +4,7 @@ metadata:
   name: cassandra-analytics
 spec:
   serviceName: cassandra-analytics
-  replicas: 2
+  replicas: 5
   template:
     metadata:
       annotations:
@@ -87,11 +87,9 @@ spec:
   - metadata:
       name: cassandra-analytics
       annotations:
-        # TODO: wth does this even do?
         volume.alpha.kubernetes.io/storage-class: anything
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 100Gi
-
+          storage: 380Gi

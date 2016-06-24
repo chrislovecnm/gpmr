@@ -9,9 +9,9 @@
 #KUBE_RELEASE=v1.3.0-beta.1
 KUBE_ROOT=kubernetes
 
-export NUM_NODES=${NUM_NODES:-334}
-export NUM_NODES_2=${NUM_NODES_2:-333}
-export NUM_NODES_3=${NUM_NODES_3:-333}
+export NUM_NODES=${NUM_NODES:-336}
+export NUM_NODES_2=${NUM_NODES_2:-332}
+export NUM_NODES_3=${NUM_NODES_3:-332}
 export MULTIZONE=${MULTIZONE:0}
 
 export MASTER_SIZE=${MASTER_SIZE:-n1-standard-32}
