@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-race-nginx
+  namespace: pet-race-ui
+  labels:
+    app: apollo-web
+    tier: frontend
+spec:
+  type: LoadBalancer
+  loadBalancerIP: "23.251.150.137"
+  ports:
+    - port: 80
+      name: http
+    - port: 443
+      name: https
+  selector:
+    app: pet-race-web
+    tier: frontend
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: pet-race-nginx
+  namespace: pet-race-ui
+  labels:
+    app: pet-race-nginx
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    app: pet-race-nginx
+    tier: frontend
+  template:
+    metadata:
+      labels:
+        app: pet-race-nginx
+        tier: frontend
+    spec:
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: pet-race-ui-nginx-tls
+      containers:
+      - name: pet-race-nginx
+        image: "gcr.io/aronchick-apollobit/pet-race-ui-nginx:v1.0"
+        ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+        volumeMounts:
+        - mountPath: /etc/nginx/ssl
+          name: pet-race-ui-nginx-tls

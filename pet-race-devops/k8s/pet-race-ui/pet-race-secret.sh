@@ -4,7 +4,8 @@ echo "
 apiVersion: v1
 kind: Secret
 metadata:
-  name: tls
+  name: pet-race-ui-nginx-tls
+  namespace: pet-race-ui
 data:
   tls.crt: `base64 -w 0 /tmp/tls.crt`
   tls.key: `base64 -w 0 /tmp/tls.key`
