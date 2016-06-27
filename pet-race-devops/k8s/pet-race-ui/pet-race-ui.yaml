@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: pet-race-ui
-        image: "gcr.io/aronchick-apollobit/pet-race-ui:v1.0"
+        image: "gcr.io/aronchick-apollobit/pet-race-ui:v1.1"
         ports:
         - containerPort: 8080
         securityContext:

@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=v1.0
+VERSION=v1.1
 
 usage() {
   echo "Usage: $0 [-p]" 1>&2;

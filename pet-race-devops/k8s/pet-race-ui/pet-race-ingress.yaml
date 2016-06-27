@@ -3,11 +3,11 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: pet-race-ui
-  annotations:
-    kubernetes.io/ingress.allowHTTP: "false"
+  # annotations:
+  #  kubernetes.io/ingress.allowHTTP: "false"
 spec:
   tls:
-  - secretName: tls
+  - secretName: pet-race-tls
   backend:
     serviceName: pet-race-ui
     servicePort: 8080
