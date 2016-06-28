@@ -989,10 +989,9 @@ var randomColor = (function () {
         .module('gpmrApp')
         .controller('NormalsByPetController', NormalsByPetController);
 
-    NormalsByPetController.$inject = ['$scope', 'RaceNormal', '$log'];
+    NormalsByPetController.$inject = ['$scope', 'RaceNormalAll','$log'];
 
-
-    function NormalsByPetController($scope, RaceNormal, $log) {
+    function NormalsByPetController($scope, RaceNormalAll, $log) {
 
         var vm = this;
         vm.count = 0;
@@ -1000,7 +999,6 @@ var randomColor = (function () {
         vm.page = 1;
         vm.normals = {};
         vm.size = 100;
-        vm.pageSize = 10;
         vm.options = {
             chart: {
                 type: 'boxPlotChart',
@@ -1021,15 +1019,14 @@ var randomColor = (function () {
             }
         };
 
+        // FIXME automatically paginate
+
         vm.loadAll = function () {
 
-            RaceNormal.query({
-                page: vm.page,
-                size: vm.pageSize,
+            RaceNormalAll.query({
             }, onSuccess, onError);
 
             function onSuccess(data, headers) {
-                var results = data.length;
                 for (var i = 0; i < data.length; i++) {
                     var j = data[i];
                     if (!(j.petCategoryName in vm.normals)) {
@@ -1043,7 +1040,7 @@ var randomColor = (function () {
                     }
                 }
 
-                Object.keys(vm.normals).forEach(function (key, index) {
+                Object.keys(vm.normals).forEach(function(key,index) {
                     var a = vm.normals[key].normals;
                     var nums = stats(vm.normals[key].normals).sort();
                     var _outliers = nums.clone().findOutliers();
@@ -1064,47 +1061,17 @@ var randomColor = (function () {
                     if (vm.options.chart.yDomain[1] < _max + 10) {
                         vm.options.chart.yDomain[1] = Math.ceil((_max + 10));
                     }
-
-                    if (results < vm.pageSize) {
-                        $log.log("results: " + vm.results);
-                        $log.log("results done");
-                        $scope.options = vm.options;
-                        $scope.data = vm.data;
-                    } else {
-                        $log.log("results loading again");
-                        vm.page += 1;
-                        $scope.options = vm.options;
-                        $scope.data = vm.data;
-                        //vm.loadAll();
-                    }
                 });
 
+                $scope.options = vm.options;
+                $scope.data = vm.data;
 
             }
 
             function onError(error) {
                 AlertService.error(error.data.message);
             }
-
-
         }
-
-        /*
-        vm.load = function () {
-            while (true) {
-                $log.log("loading all");
-                vm.loadAll();
-                if (vm.results < vm.pageSize) {
-                    $log.log("results: " + vm.results);
-                    $log.log("results done");
-                    break;
-                }
-                vm.page += 1;
-            }
-            $scope.options = vm.options;
-            $scope.data = vm.data;
-            vm.page = 1;
-        }*/
 
         vm.loadAll();
 
