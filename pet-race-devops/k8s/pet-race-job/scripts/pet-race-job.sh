@@ -48,12 +48,13 @@ if [ -z "$SCALE" ]; then
 fi
 
 DT=$(date --utc '+%Y/%m/%d %H:%M:%SZ')
+EP=$(date +'%s')
 
 read -d '' YAML << EOF
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: pet-race-${MONSTER,,}
+  name: pet-race-${MONSTER,,}-${EP}
   labels:
     name: pet-races
 spec:

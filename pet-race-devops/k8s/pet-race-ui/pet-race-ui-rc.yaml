@@ -3,7 +3,7 @@ kind: ReplicationController
 metadata:
   name: pet-race-ui
 spec:
-  replicas: 1
+  replicas: 42
   template:
     metadata:
       labels:
