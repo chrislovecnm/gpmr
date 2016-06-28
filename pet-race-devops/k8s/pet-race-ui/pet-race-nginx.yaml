@@ -61,7 +61,7 @@ spec:
           secretName: pet-race-ui-nginx-tls
       containers:
       - name: pet-race-nginx
-        image: "gcr.io/aronchick-apollobit/pet-race-ui-nginx:v1.1"
+        image: "gcr.io/aronchick-apollobit/pet-race-ui-nginx:v1.3"
         ports:
           - containerPort: 80
             name: http

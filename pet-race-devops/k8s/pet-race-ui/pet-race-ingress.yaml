@@ -9,5 +9,5 @@ spec:
   tls:
   - secretName: pet-race-tls
   backend:
-    serviceName: pet-race-ui
-    servicePort: 8080
+    serviceName: pet-race-nginx
+    servicePort: 30565

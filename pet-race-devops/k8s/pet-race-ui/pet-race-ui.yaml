@@ -7,6 +7,7 @@ metadata:
     app: pet-race-ui
     tier: frontend
 spec:
+  type: NodePort
   ports:
     - port: 8080
   selector:
@@ -39,3 +40,16 @@ spec:
           requests:
             cpu: "2"
             memory: 2Gi
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pet-race-ui
+  namespace: pet-race-ui
+  labels:
+    app: pet-race-ui
+    tier: frontend
+spec:
+  backend:
+    serviceName: pet-race-nginx
+    servicePort: 80

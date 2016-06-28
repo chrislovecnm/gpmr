@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=v1.1
+VERSION=v1.3
 
 usage() {
   echo "Usage: $0 [-p]" 1>&2;
@@ -33,7 +33,7 @@ fi
 REPO=gcr.io/$PROJECT_ID
 DOCKER="${REPO}/${PWD##*/}:${VERSION}"
 
-docker build -t ${DOCKER} .
+docker build --force-rm -t ${DOCKER} .
 
 echo $DEPLOY
 if [ "$DEPLOY" ]; then
