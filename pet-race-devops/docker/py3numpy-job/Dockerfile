@@ -1,5 +1,5 @@
 FROM gcr.io/aronchick-apollobit/py3numpy:v1.0
-ENV RELEASE 0.1
+ENV RELEASE 0.2
 RUN set -ex \
   && apk add --no-cache --virtual .fetch-deps curl  \
   && curl -fSL "https://github.com/k8s-for-greeks/gpmr/archive/v${RELEASE}.tar.gz" -o gpmr.tar.gz \

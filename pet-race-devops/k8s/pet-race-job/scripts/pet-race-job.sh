@@ -68,7 +68,7 @@ spec:
       containers:
       - name: pet-race-${MONSTER,,}
         image: gcr.io/aronchick-apollobit/py3numpy-job:v1.1
-        command: ["pet-race-job", "--description='A Pet Race of ${MONSTER} ${DT}'", "--length=100", "--pet=${MONSTER}", "--scale=${SCALE}"]
+        command: ["pet-race-job", "--length=100", "--pet=${MONSTER}", "--scale=${SCALE}"]
         resources:
           limits:
             cpu: "2"
@@ -81,4 +81,4 @@ echo "Starting"
 echo "======"
 echo "$YAML"
 
-echo "$YAML" | /home/clove/gpmr/pet-race-devops/gce/kubernetes/cluster/kubectl.sh create --namespace=pet-race-ui -f -
+echo "$YAML" | /home/clove/gpmr/pet-race-devops/gce/kubernetes/cluster/kubectl.sh create --namespace=pet-races -f -
