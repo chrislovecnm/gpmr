@@ -13,6 +13,6 @@
 # limitations under the License.
 
 FROM gcr.io/aronchick-apollobit/google-debian-openjdk8:v1.0
-
+ENV JAVA_OPTS="-server -ea -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -Xss256k -XX:+AlwaysPreTouch -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+PerfDisableSharedMem -Djava.net.preferIPv4Stack=true -Xms4G -Xmx4G -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=1 -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSWaitDuration=10000 -XX:+CMSParallelInitialMarkEnabled -XX:+CMSEdenChunksRecordAlways -XX:+CMSClassUnloadingEnabled"
 ADD *.war /app.war
 CMD ["/dumb-init", "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.war", "--spring.profiles.active=prod"]

@@ -1,20 +1,4 @@
 apiVersion: v1
-kind: Service
-metadata:
-  name: pet-race-ui
-  namespace: pet-race-ui
-  labels:
-    app: pet-race-ui
-    tier: frontend
-spec:
-  type: NodePort
-  ports:
-    - port: 8080
-  selector:
-    app: pet-race-ui
-    tier: frontend
----
-apiVersion: v1
 kind: ReplicationController
 metadata:
   name: pet-race-ui
@@ -29,6 +13,7 @@ spec:
       containers:
       - name: pet-race-ui
         image: "gcr.io/aronchick-apollobit/pet-race-ui:v1.3"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         securityContext:
@@ -40,16 +25,4 @@ spec:
           requests:
             cpu: "2"
             memory: 5Gi
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: pet-race-ui
-  namespace: pet-race-ui
-  labels:
-    app: pet-race-ui
-    tier: frontend
-spec:
-  backend:
-    serviceName: pet-race-ui
-    servicePort: 8080
+
